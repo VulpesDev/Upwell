@@ -37,7 +37,7 @@ public class Platformer : MonoBehaviour
     [Space(10)]
     [Header("Jet Pack Settings")]
     public float jet_power;
-    public float jet_multiplier;
+    public float jet_multiplier, jet_maxMultiplier;
     private float jet_baseMultiplier;
     private bool jet_activated = false;
 
@@ -77,7 +77,8 @@ public class Platformer : MonoBehaviour
     }
     void JetpackUpdate() {
         rb.velocity += Vector2.up * jet_power * jet_multiplier;
-        jet_multiplier += jet_baseMultiplier;
+        if (jet_multiplier < jet_maxMultiplier)
+            jet_multiplier += jet_baseMultiplier;
     }
     // void JetpackStop() {
 
