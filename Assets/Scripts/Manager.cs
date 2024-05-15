@@ -21,6 +21,8 @@ public class Manager : MonoBehaviour
     void CheckForInput() {
         if (Input.GetKeyDown(KeyCode.R))
             Reload();
+        if (Input.GetKeyDown(KeyCode.M)) // test phrase only
+            LoadScene(Scene.MainMenu);
         // if(Input.GetKeyDown(KeyCode.Period))
         // {
         //     NextScene();
