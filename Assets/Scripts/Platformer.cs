@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using Unity.Collections;
 using UnityEngine;
 
@@ -23,7 +24,7 @@ public class Platformer : MonoBehaviour
     public LayerMask groundLayer;
     public float coyoteeTime;
     float lastTimeGrounded;
-    public int defaultAdditionalJumps = 1;
+    public int defaultAdditionalJumps;
     int additionalJumps;
     
     [Space(10)]
@@ -46,20 +47,16 @@ public class Platformer : MonoBehaviour
     }
     void Update() {
         Jump();
-        Move();
+        x_step = Input.GetAxisRaw("Horizontal") * speed;
         CheckIfGrounded();
         DashCheck();
     }
     void FixedUpdate() {
-        BetterJump();
+        Move();
+        JumpVelocityControl();
     }
 
     void Move() {
-        float x = Input.GetAxisRaw("Horizontal");
-        float x_step = x * speed;
-
-    }
-    void PhysicsMove() {
         rb.velocity = new Vector2(x_step, rb.velocity.y);
     }
     void Jump()  {
@@ -69,7 +66,7 @@ public class Platformer : MonoBehaviour
             additionalJumps--;
         }
     }
-    void BetterJump() {
+    void JumpVelocityControl() {
         if (rb.velocity.y < 0) {
             rb.velocity += Vector2.up * Physics2D.gravity * (fallMultiplier - 1) * Time.deltaTime;
         } 
