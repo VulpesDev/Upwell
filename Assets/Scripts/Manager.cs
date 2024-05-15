@@ -5,6 +5,19 @@ using UnityEngine.SceneManagement;
 
 public class Manager : MonoBehaviour
 {
+    public static Manager Instance;
+
+    private void Awake() {
+        Instance = this;
+    }
+
+    public enum Scene {
+        MainMenu,
+        Level,
+        GameOver,
+        GameFinished,
+    }
+
     void CheckForInput() {
         if (Input.GetKeyDown(KeyCode.R))
             Reload();
@@ -22,9 +35,15 @@ public class Manager : MonoBehaviour
         CheckForInput();
     }
 
+    public void LoadScene(Scene scene) {
+        SceneManager.LoadScene(scene.ToString());
+    }
+
     public void Reload() {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
+
+
     // public void NextScene()
     // {
     //     if(SceneManager.GetActiveScene().buildIndex + 1 < SceneManager.sceneCountInBuildSettings)
