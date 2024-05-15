@@ -60,7 +60,7 @@ public class Platformer : MonoBehaviour
         rb.velocity = new Vector2(x_step, rb.velocity.y);
     }
     void Jump()  {
-        if (Input.GetKeyDown(KeyCode.Space) && (isGrounded || Time.time - lastTimeGrounded <=
+        if (Input.GetButtonDown("Jump") && (isGrounded || Time.time - lastTimeGrounded <=
             coyoteeTime || additionalJumps > 0)) {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             additionalJumps--;
@@ -70,7 +70,7 @@ public class Platformer : MonoBehaviour
         if (rb.velocity.y < 0) {
             rb.velocity += Vector2.up * Physics2D.gravity * (fallMultiplier - 1) * Time.deltaTime;
         } 
-        else if (rb.velocity.y > 0 && !Input.GetKeyDown(KeyCode.Space)) {
+        else if (rb.velocity.y > 0 && !Input.GetButtonDown("Jump")) {
             rb.velocity += Vector2.up * Physics2D.gravity * (lowJumpMultiplier - 1) * Time.deltaTime;
         }   
     }
