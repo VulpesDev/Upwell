@@ -7,7 +7,6 @@ using UnityEngine;
 public class Platformer : MonoBehaviour
 {
     Rigidbody2D rb = null;
-    // Manager mngr;
 
     [Header("Movement Settings")]
     public float speed;
@@ -40,8 +39,15 @@ public class Platformer : MonoBehaviour
     public float jet_multiplier, jet_maxMultiplier;
     private float jet_baseMultiplier;
     private bool jet_activated = false;
-    private sbyte jet_fuel = 100;
+    private sbyte jet_fuel = 0;
     public sbyte getFuelValue() { return jet_fuel; }
+    [SerializeField][Range(0,100)]
+    private sbyte max_fuel = 100;
+    public sbyte getMaxFuel() { return max_fuel; }
+    [SerializeField][Range(0,100)]
+    private sbyte min_fuel = 0;
+    public sbyte getMinFuel() { return min_fuel; }
+
     [SerializeField]
     private sbyte jet_fuel_discharge = 2;
     [SerializeField]
@@ -57,28 +63,33 @@ public class Platformer : MonoBehaviour
         additionalJumps = defaultAdditionalJumps;
         StartCoroutine(JetpackDelay());
     }
+
     void Update() {
         if (Input.GetButtonDown("Jump") && (isGrounded || Time.time - lastTimeGrounded <=
             coyoteeTime || additionalJumps > 0))
                 Jump();
-        x_step = Input.GetAxisRaw("Horizontal") * speed;
+        x_step = Input.GetAxisRaw("Horizontal") * speed * Time.deltaTime * 100;
         if (Input.GetButtonDown("Fire2")) {
-            if (jet_fuel > 0)
+            if (jet_fuel > min_fuel)
                 Jump();
             jet_activated = true;
         }
         if (Input.GetButtonUp("Fire2")) {
-            if (jet_fuel > 0)
+            if (jet_fuel > min_fuel)
                 Jump();
             jet_activated = false;
         }
         CheckIfGrounded();
         DashCheck();
     }
+
+    /// <summary>
+    /// Physics calculations are made in the FixedUpdate
+    /// </summary>
     void FixedUpdate() {
         Move();
         JumpVelocityControl();
-        if (jet_activated && jet_fuel > 0)
+        if (jet_activated && jet_fuel > min_fuel)
             JetpackUpdate();
         else
             jet_multiplier = jet_baseMultiplier;
@@ -87,20 +98,17 @@ public class Platformer : MonoBehaviour
     }
     IEnumerator JetpackDelay() {
         yield return new WaitForSeconds(0.1f);
-        if (jet_fuel < 100)
+        if (jet_fuel < max_fuel)
             jet_fuel += jet_fuel_recharge;
         StartCoroutine(JetpackDelay());
     }
     void JetpackUpdate() {
         if (jet_fuel - jet_fuel_discharge >= 0)
             jet_fuel -= jet_fuel_discharge;
-        rb.velocity += Vector2.up * jet_power * jet_multiplier;
+        rb.velocity += Vector2.up * jet_power * jet_multiplier * Time.deltaTime * 100;
         if (jet_multiplier < jet_maxMultiplier)
             jet_multiplier += jet_baseMultiplier;
     }
-    // void JetpackStop() {
-
-    // }
     void Move() {
         rb.velocity = new Vector2(x_step, rb.velocity.y);
     }

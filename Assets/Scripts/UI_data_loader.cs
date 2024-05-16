@@ -8,16 +8,14 @@ public class UI_data_loader : MonoBehaviour
     private Slider slider;
     private Platformer platformer_script;
 
-    // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
         slider = GameObject.Find("JetpackFuel_Slider").GetComponent<Slider>();
         platformer_script = GameObject.Find("Player").GetComponent<Platformer>();
+        slider.maxValue = platformer_script.getMaxFuel();
+        slider.minValue = platformer_script.getMinFuel();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
+    void Update() {
         slider.value = platformer_script.getFuelValue();
     }
 }
