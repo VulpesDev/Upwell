@@ -28,7 +28,8 @@ public class Attack : MonoBehaviour
         }
     }
 
-    public void SetInvert(bool value) {
+    public IEnumerator SetInvert(bool value, float delay) {
+        yield return new WaitForSeconds(delay);
         hitBox.invert = value;
     }
 
@@ -36,6 +37,5 @@ public class Attack : MonoBehaviour
         hitBox.pos = transform.position + new Vector3(hitBox.x_offset*(hitBox.invert? -1.0f : 1.0f), 0.0f, 0.0f);
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(hitBox.pos, hitBox.radius);
-
     }
 }
