@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using Unity.Collections;
 using UnityEngine;
 
@@ -15,66 +16,104 @@ public class Platformer : MonoBehaviour
 
     [Header("Jump Settings")]
     public float jumpForce;
-    public float fallMultiplier = 2.5f;
-    public float lowJumpMultiplier = 2f;
+    public float falldash_Multiplier = 2.5f;
+    public float lowJumpdash_Multiplier = 2f;
     bool isGrounded = false;
     private Vector3 groundCheckPos = Vector3.zero;
     public float checkGroundRadius;
     public LayerMask groundLayer;
     public float coyoteeTime;
     float lastTimeGrounded;
-    public int defaultAdditionalJumps = 1;
+    public int defaultAdditionalJumps;
     int additionalJumps;
     
     [Space(10)]
     
     [Header("Dash Settings")]
-    public float multiplier;
-    public float duration, baseSpeed, delay;
+    public float dash_multiplier;
+    public float dash_duration, baseSpeed, dash_delay;
     bool isDashing = false, canDash = true;
+
+    [Space(10)]
+    [Header("Jet Pack Settings")]
+    public float jet_power;
+    public float jet_multiplier, jet_maxMultiplier;
+    private float jet_baseMultiplier;
+    private bool jet_activated = false;
+    private sbyte jet_fuel = 100;
+    public sbyte getFuelValue() { return jet_fuel; }
+    [SerializeField]
+    private sbyte jet_fuel_discharge = 2;
+    [SerializeField]
+    private sbyte jet_fuel_recharge = 1;
+
 
     private float x_step = 0.0f;
 
     void Start() {
         rb = GetComponent<Rigidbody2D>();
         baseSpeed = speed;
+        jet_baseMultiplier = jet_multiplier;
         additionalJumps = defaultAdditionalJumps;
-
-        // GameObject manager = Instantiate(Resources.Load<GameObject>("Manager"));
-        // mngr = manager.GetComponent<Manager>();
-        
+        StartCoroutine(JetpackDelay());
     }
     void Update() {
-        Jump();
-        Move();
+        if (Input.GetButtonDown("Jump") && (isGrounded || Time.time - lastTimeGrounded <=
+            coyoteeTime || additionalJumps > 0))
+                Jump();
+        x_step = Input.GetAxisRaw("Horizontal") * speed;
+        if (Input.GetButtonDown("Fire2")) {
+            if (jet_fuel > 0)
+                Jump();
+            jet_activated = true;
+        }
+        if (Input.GetButtonUp("Fire2")) {
+            if (jet_fuel > 0)
+                Jump();
+            jet_activated = false;
+        }
         CheckIfGrounded();
         DashCheck();
     }
     void FixedUpdate() {
-        BetterJump();
-    }
+        Move();
+        JumpVelocityControl();
+        if (jet_activated && jet_fuel > 0)
+            JetpackUpdate();
+        else
+            jet_multiplier = jet_baseMultiplier;
+        
 
+    }
+    IEnumerator JetpackDelay() {
+        yield return new WaitForSeconds(0.1f);
+        if (jet_fuel < 100)
+            jet_fuel += jet_fuel_recharge;
+        StartCoroutine(JetpackDelay());
+    }
+    void JetpackUpdate() {
+        if (jet_fuel - jet_fuel_discharge >= 0)
+            jet_fuel -= jet_fuel_discharge;
+        rb.velocity += Vector2.up * jet_power * jet_multiplier;
+        if (jet_multiplier < jet_maxMultiplier)
+            jet_multiplier += jet_baseMultiplier;
+    }
+    // void JetpackStop() {
+
+    // }
     void Move() {
-        float x = Input.GetAxisRaw("Horizontal");
-        float x_step = x * speed;
-
-    }
-    void PhysicsMove() {
         rb.velocity = new Vector2(x_step, rb.velocity.y);
     }
     void Jump()  {
-        if (Input.GetKeyDown(KeyCode.Space) && (isGrounded || Time.time - lastTimeGrounded <=
-            coyoteeTime || additionalJumps > 0)) {
-            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-            additionalJumps--;
-        }
+        rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+        additionalJumps--;
     }
-    void BetterJump() {
+    void JumpVelocityControl() {
         if (rb.velocity.y < 0) {
-            rb.velocity += Vector2.up * Physics2D.gravity * (fallMultiplier - 1) * Time.deltaTime;
+            rb.velocity += Vector2.up * Physics2D.gravity * (falldash_Multiplier - 1) * Time.deltaTime;
         } 
-        else if (rb.velocity.y > 0 && !Input.GetKeyDown(KeyCode.Space)) {
-            rb.velocity += Vector2.up * Physics2D.gravity * (lowJumpMultiplier - 1) * Time.deltaTime;
+        else if (rb.velocity.y > 0 && !Input.GetButtonDown("Jump")) {
+            rb.velocity += Vector2.up * Physics2D.gravity * (lowJumpdash_Multiplier - 1) * Time.deltaTime;
         }   
     }
     void CheckIfGrounded() {
@@ -103,13 +142,13 @@ public class Platformer : MonoBehaviour
     void DashStart() {
         isDashing = true;
         canDash = false;
-        speed *= multiplier;
-        Invoke("DashStop", duration);
+        speed *= dash_multiplier;
+        Invoke("DashStop", dash_duration);
     }
     void DashStop() {
         speed = baseSpeed;
         isDashing = false;
-        Invoke("DashDelay", delay);
+        Invoke("DashDelay", dash_delay);
     }
     void DashDelay() {
         canDash = true;

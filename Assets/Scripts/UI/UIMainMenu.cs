@@ -13,6 +13,6 @@ public class UIMainMenu : MonoBehaviour
     }
 
     private void StartNewGame() {
-        Manager.Instance.LoadScene(Manager.Scene.Level);
+        Manager.Instance.LoadScene(Manager.Scene.MovementTest);
     }
 }

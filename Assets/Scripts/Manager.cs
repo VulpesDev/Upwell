@@ -13,6 +13,7 @@ public class Manager : MonoBehaviour
 
     public enum Scene {
         MainMenu,
+        MovementTest,
         Level,
         GameOver,
         GameFinished,
