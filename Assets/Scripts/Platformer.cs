@@ -13,7 +13,8 @@ public class Platformer : MonoBehaviour
     public float speed;
 
     [Space(10)]
-        #region Jump Settings   ///////////////// Jump Settings ////////////////
+        #region Jump Settings
+            ///////////////// Jump Settings ////////////////
 
     [Header("Jump Settings")]
     public float jumpForce;
@@ -31,7 +32,8 @@ public class Platformer : MonoBehaviour
     [Space(10)]
         #endregion
     
-        #region Dash Settings /////////////// Dash Settings ////////////////
+        #region Dash Settings
+            /////////////// Dash Settings ////////////////
     [Header("Dash Settings")]
     public float dash_multiplier;
     public float dash_duration, baseSpeed, dash_delay;
@@ -39,7 +41,8 @@ public class Platformer : MonoBehaviour
     [Space(10)]
         #endregion
 
-        #region Jet Pack Settings ///////////// Jet Pack Settings //////////
+        #region Jet Pack Settings
+            ///////////// Jet Pack Settings //////////
     [Header("Jet Pack Settings")]
     public float jet_power;
     public float jet_multiplier, jet_maxMultiplier;
@@ -77,7 +80,8 @@ public class Platformer : MonoBehaviour
 /////////////////// END OF GETTERS AND SETTERS //////////////////   
 #endregion
 
-#region Start and Update ///////////////// Start and Update /////////////////
+#region Start and Update
+    ///////////////// Start and Update /////////////////
     void Start() {
         rb = GetComponent<Rigidbody2D>();
         baseSpeed = speed;
@@ -126,7 +130,8 @@ public class Platformer : MonoBehaviour
     }
 #endregion
 
-    #region Basic Physics Movement //////////////// Basic Physics Movement //////////////////
+    #region Basic Physics Movement
+        //////////////// Basic Physics Movement //////////////////
     /// <summary>
     /// Applies horizontal movement
     /// </summary>
@@ -143,7 +148,8 @@ public class Platformer : MonoBehaviour
     }
     #endregion
 
-    #region Passive Checks ////////////////// Passive Checks //////////////////
+    #region Passive Checks
+        ////////////////// Passive Checks //////////////////
     /// <summary>
     /// Applies gravity to vertical movement
     /// </summary>
@@ -177,7 +183,8 @@ public class Platformer : MonoBehaviour
     }
     #endregion
 
-    #region Dash //////////////// Dash //////////////////
+    #region Dash
+        //////////////// Dash //////////////////
     /// <summary>
     /// Checks if the player can dash
     /// </summary>
@@ -215,7 +222,8 @@ public class Platformer : MonoBehaviour
     }
     #endregion
 
-    #region Jetpack //////////////// Jetpack //////////////////
+    #region Jetpack
+        //////////////// Jetpack //////////////////
     /// <summary>
     /// waits 0.1 seconds before charging jetpack
     /// </summary>
