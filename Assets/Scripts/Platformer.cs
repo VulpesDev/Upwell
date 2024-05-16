@@ -7,61 +7,65 @@ using UnityEngine;
 public class Platformer : MonoBehaviour
 {
 #region Variables
-    Rigidbody2D rb = null;
+    Rigidbody2D     rb = null;
 
     [Header("Movement Settings")]
-    public float speed;
-
+    public float    speed = 30.0f;
+    private float   x_step = 0.0f;
     [Space(10)]
+
+
         #region Jump Settings
             ///////////////// Jump Settings ////////////////
 
     [Header("Jump Settings")]
-    public float jumpForce;
-    public float falldash_Multiplier = 2.5f;
-    public float lowJumpdash_Multiplier = 2f;
-    bool isGrounded = false;
-    private Vector3 groundCheckPos = Vector3.zero;
-    public float checkGroundRadius;
-    public LayerMask groundLayer;
-    public float coyoteeTime;
-    float lastTimeGrounded;
-    public int defaultAdditionalJumps;
-    int additionalJumps;
-    
+    [SerializeField]    private float       jumpForce = 42.0f;
+    [SerializeField]    private float       lowFall_Multiplier = 2.5f;
+    [SerializeField]    private float       lowJum_Multiplier = 2f;
+    [SerializeField]    private float       checkGroundRadius = 0.24f;
+    [SerializeField]    private LayerMask   groundLayer;
+    [SerializeField]    private float       coyoteeTime = 0.1f;
+    [SerializeField]    private int         additionalJumps = 0;
+                        private bool        isGrounded = false;
+                        private Vector3     groundCheckPos = Vector3.zero;
+                        private float       lastTimeGrounded;
+                        private int         defaultAdditionalJumps;
     [Space(10)]
         #endregion
+
+
     
         #region Dash Settings
             /////////////// Dash Settings ////////////////
     [Header("Dash Settings")]
-    public float dash_multiplier;
-    public float dash_duration, baseSpeed, dash_delay;
-    bool isDashing = false, canDash = true;
+    [SerializeField]    private float   dash_multiplier = 4.0f;
+    [SerializeField]    private float   dash_duration = 0.2f;
+    [SerializeField]    private float   dash_delay = 0.5f;
+                        private float   baseSpeed;
+                        private bool isDashing = false, canDash = true;
     [Space(10)]
         #endregion
+
+
 
         #region Jet Pack Settings
             ///////////// Jet Pack Settings //////////
     [Header("Jet Pack Settings")]
-    public float jet_power;
-    public float jet_multiplier, jet_maxMultiplier;
-    private float jet_baseMultiplier;
-    private bool jet_activated = false;
-    private sbyte jet_fuel = 0;
+    [SerializeField]    private float   jet_power = 0.25f;
+    [SerializeField]    private float   jet_multiplier = 1;
+    [SerializeField]    private float   jet_maxMultiplier = 100;
+                        private float   jet_baseMultiplier;
+                        private bool    jet_activated = false;
+                        private sbyte   jet_fuel = 0;
+    
     [SerializeField][Range(0,100)]
-    private sbyte max_fuel = 100;
+                        private sbyte   max_fuel = 100;
     [SerializeField][Range(0,100)]
-    private sbyte min_fuel = 0;
+                        private sbyte   min_fuel = 0;
 
-    [SerializeField]
-    private sbyte jet_fuel_discharge = 2;
-    [SerializeField]
-    private sbyte jet_fuel_recharge = 1;
+    [SerializeField]    private sbyte   jet_fuel_discharge = 2;
+    [SerializeField]    private sbyte   jet_fuel_recharge = 1;
         #endregion
-
-
-    private float x_step = 0.0f;
 #endregion
 
 
@@ -92,7 +96,7 @@ public class Platformer : MonoBehaviour
 
     /// <summary>
     /// Here is where all the runtime checks are done (frame by frame)
-    /// Also checking for input and redirecting to other functions
+    /// Also checking for input and redirecting to other functions in fixed time
     /// (so it's cleaner and the pysics calculations are stable)
     /// </summary>
     void Update() {
@@ -155,10 +159,10 @@ public class Platformer : MonoBehaviour
     /// </summary>
     void JumpVelocityControl() {
         if (rb.velocity.y < 0) {
-            rb.velocity += Vector2.up * Physics2D.gravity * (falldash_Multiplier - 1) * Time.deltaTime;
+            rb.velocity += Vector2.up * Physics2D.gravity * (lowFall_Multiplier - 1) * Time.deltaTime;
         } 
         else if (rb.velocity.y > 0 && !Input.GetButtonDown("Jump")) {
-            rb.velocity += Vector2.up * Physics2D.gravity * (lowJumpdash_Multiplier - 1) * Time.deltaTime;
+            rb.velocity += Vector2.up * Physics2D.gravity * (lowJum_Multiplier - 1) * Time.deltaTime;
         }   
     }
 
