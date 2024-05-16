@@ -56,6 +56,9 @@ public class Platformer : MonoBehaviour
 
     private float x_step = 0.0f;
 
+
+    
+
     void Start() {
         rb = GetComponent<Rigidbody2D>();
         baseSpeed = speed;
@@ -64,6 +67,11 @@ public class Platformer : MonoBehaviour
         StartCoroutine(JetpackDelay());
     }
 
+    /// <summary>
+    /// Here is where all the runtime checks are done (frame by frame)
+    /// Also checking for input and redirecting to other functions
+    /// (so it's cleaner and the pysics calculations are stable)
+    /// </summary>
     void Update() {
         if (Input.GetButtonDown("Jump") && (isGrounded || Time.time - lastTimeGrounded <=
             coyoteeTime || additionalJumps > 0))
@@ -84,7 +92,8 @@ public class Platformer : MonoBehaviour
     }
 
     /// <summary>
-    /// Physics calculations are made in the FixedUpdate
+    /// Physics calculations are made in the FixedUpdate and calculated 
+    /// using the time between frames for stable calculations across different hardware
     /// </summary>
     void FixedUpdate() {
         Move();
@@ -96,26 +105,25 @@ public class Platformer : MonoBehaviour
         
 
     }
-    IEnumerator JetpackDelay() {
-        yield return new WaitForSeconds(0.1f);
-        if (jet_fuel < max_fuel)
-            jet_fuel += jet_fuel_recharge;
-        StartCoroutine(JetpackDelay());
-    }
-    void JetpackUpdate() {
-        if (jet_fuel - jet_fuel_discharge >= 0)
-            jet_fuel -= jet_fuel_discharge;
-        rb.velocity += Vector2.up * jet_power * jet_multiplier * Time.deltaTime * 100;
-        if (jet_multiplier < jet_maxMultiplier)
-            jet_multiplier += jet_baseMultiplier;
-    }
+
+    /// <summary>
+    /// Applies horizontal movement
+    /// </summary>
     void Move() {
         rb.velocity = new Vector2(x_step, rb.velocity.y);
     }
+
+    /// <summary>
+    /// Applies vertical movement
+    /// </summary>
     void Jump()  {
         rb.velocity = new Vector2(rb.velocity.x, jumpForce);
         additionalJumps--;
     }
+
+    /// <summary>
+    /// Applies gravity to vertical movement
+    /// </summary>
     void JumpVelocityControl() {
         if (rb.velocity.y < 0) {
             rb.velocity += Vector2.up * Physics2D.gravity * (falldash_Multiplier - 1) * Time.deltaTime;
@@ -124,6 +132,10 @@ public class Platformer : MonoBehaviour
             rb.velocity += Vector2.up * Physics2D.gravity * (lowJumpdash_Multiplier - 1) * Time.deltaTime;
         }   
     }
+
+    /// <summary>
+    /// Checks if the player is on the ground
+    /// </summary>
     void CheckIfGrounded() {
         groundCheckPos = new Vector2(transform.position.x, transform.position.y - transform.lossyScale.y);
         Collider2D colliders = Physics2D.OverlapCircle(groundCheckPos, checkGroundRadius,
@@ -141,27 +153,67 @@ public class Platformer : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Checks if the player can dash
+    /// </summary>
     void DashCheck() {
         float fire1 = Input.GetAxisRaw("Fire1");
         if(fire1 >= 0.1f && canDash) {
             DashStart();
         }
     }
+
+    /// <summary>
+    /// Dashes the player
+    /// </summary>
     void DashStart() {
         isDashing = true;
         canDash = false;
         speed *= dash_multiplier;
         Invoke("DashStop", dash_duration);
     }
+
+    /// <summary>
+    /// Stops dashing
+    /// </summary>
     void DashStop() {
         speed = baseSpeed;
         isDashing = false;
         Invoke("DashDelay", dash_delay);
     }
+
+    /// <summary>
+    /// Waits for dash delay
+    /// </summary>
     void DashDelay() {
         canDash = true;
     }
 
+    /// <summary>
+    /// waits 0.1 seconds before charging jetpack
+    /// </summary>
+    /// <returns></returns>
+    IEnumerator JetpackDelay() {
+        yield return new WaitForSeconds(0.1f);
+        if (jet_fuel < max_fuel)
+            jet_fuel += jet_fuel_recharge;
+        StartCoroutine(JetpackDelay());
+    }
+
+    /// <summary>
+    /// Applies jetpack force
+    /// </summary>
+    void JetpackUpdate() {
+        if (jet_fuel - jet_fuel_discharge >= 0)
+            jet_fuel -= jet_fuel_discharge;
+        rb.velocity += Vector2.up * jet_power * jet_multiplier * Time.deltaTime * 100;
+        if (jet_multiplier < jet_maxMultiplier)
+            jet_multiplier += jet_baseMultiplier;
+    }
+
+    /// <summary>
+    /// Gizmo for ground check
+    /// </summary>
     private void OnDrawGizmosSelected() {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(groundCheckPos, checkGroundRadius);
