@@ -1304,7 +1304,8 @@ MonoBehaviour:
   jet_power: 0.25
   jet_multiplier: 1
   jet_maxMultiplier: 100
-  jet_fuel_depletion: 3
+  jet_fuel_discharge: 2
+  jet_fuel_recharge: 1
 --- !u!1 &4801119747147001010
 GameObject:
   m_ObjectHideFlags: 0
