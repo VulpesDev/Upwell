@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Unity.Collections;
@@ -6,8 +6,8 @@ using UnityEngine;
 
 public class Platformer : MonoBehaviour
 {
-#region Variables
-    Rigidbody2D     rb = null;
+    #region Variables
+    Rigidbody2D rb = null;
 
     [Header("Movement Settings")]
     public float    speed = 30.0f;
@@ -66,6 +66,12 @@ public class Platformer : MonoBehaviour
     [SerializeField]    private sbyte   jet_fuel_discharge = 2;
     [SerializeField]    private sbyte   jet_fuel_recharge = 1;
         #endregion
+        
+        #region Combat Settings
+            ///////////// Combat Settings //////////
+    [Header("Combat Settings")]
+                        private Attack  attackManager = null;
+        #endregion
 #endregion
 
 
@@ -91,6 +97,7 @@ public class Platformer : MonoBehaviour
         baseSpeed = speed;
         jet_baseMultiplier = jet_multiplier;
         additionalJumps = defaultAdditionalJumps;
+        attackManager = GetComponent<Attack>();
         StartCoroutine(JetpackDelay());
     }
 
@@ -114,6 +121,11 @@ public class Platformer : MonoBehaviour
                 Jump();
             jet_activated = false;
         }
+
+        if (Input.GetButtonDown("Fire3")) {
+            attackManager.AttackHit(50);
+        }
+        
         CheckIfGrounded();
         DashCheck();
     }
