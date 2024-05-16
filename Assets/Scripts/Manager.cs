@@ -5,9 +5,25 @@ using UnityEngine.SceneManagement;
 
 public class Manager : MonoBehaviour
 {
+    public static Manager Instance;
+
+    private void Awake() {
+        Instance = this;
+    }
+
+    public enum Scene {
+        MainMenu,
+        MovementTest,
+        Level,
+        GameOver,
+        GameFinished,
+    }
+
     void CheckForInput() {
         if (Input.GetKeyDown(KeyCode.R))
             Reload();
+        if (Input.GetKeyDown(KeyCode.M)) // test phrase only
+            LoadScene(Scene.MainMenu);
         // if(Input.GetKeyDown(KeyCode.Period))
         // {
         //     NextScene();
@@ -22,9 +38,15 @@ public class Manager : MonoBehaviour
         CheckForInput();
     }
 
+    public void LoadScene(Scene scene) {
+        SceneManager.LoadScene(scene.ToString());
+    }
+
     public void Reload() {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
+
+
     // public void NextScene()
     // {
     //     if(SceneManager.GetActiveScene().buildIndex + 1 < SceneManager.sceneCountInBuildSettings)
