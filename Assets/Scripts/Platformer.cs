@@ -6,14 +6,14 @@ using UnityEngine;
 
 public class Platformer : MonoBehaviour
 {
-    #region Variables
+#region Variables
     Rigidbody2D rb = null;
 
     [Header("Movement Settings")]
     public float speed;
 
     [Space(10)]
-        #region Jump Settings
+        #region Jump Settings   ///////////////// Jump Settings ////////////////
 
     [Header("Jump Settings")]
     public float jumpForce;
@@ -31,7 +31,7 @@ public class Platformer : MonoBehaviour
     [Space(10)]
         #endregion
     
-        #region Dash Settings
+        #region Dash Settings /////////////// Dash Settings ////////////////
     [Header("Dash Settings")]
     public float dash_multiplier;
     public float dash_duration, baseSpeed, dash_delay;
@@ -39,7 +39,7 @@ public class Platformer : MonoBehaviour
     [Space(10)]
         #endregion
 
-        #region Jet Pack Settings
+        #region Jet Pack Settings ///////////// Jet Pack Settings //////////
     [Header("Jet Pack Settings")]
     public float jet_power;
     public float jet_multiplier, jet_maxMultiplier;
@@ -59,9 +59,10 @@ public class Platformer : MonoBehaviour
 
 
     private float x_step = 0.0f;
-    #endregion
+#endregion
 
 
+#region Getters and Setters
 /// <summary>
 /// ////////////////// GETTERS AND SETTERS //////////////////
 /// </summary>
@@ -69,10 +70,14 @@ public class Platformer : MonoBehaviour
     public sbyte getFuelValue() { return jet_fuel; }
     public sbyte getMaxFuel() { return max_fuel; }
     public sbyte getMinFuel() { return min_fuel; }
+    
+    public void setFuelValue(sbyte value) { jet_fuel = value; }
+    public void addFuelValue(sbyte value) { jet_fuel += value; }
 
 /////////////////// END OF GETTERS AND SETTERS //////////////////   
+#endregion
 
-
+#region Start and Update ///////////////// Start and Update /////////////////
     void Start() {
         rb = GetComponent<Rigidbody2D>();
         baseSpeed = speed;
@@ -119,8 +124,9 @@ public class Platformer : MonoBehaviour
         
 
     }
+#endregion
 
-    #region Basic Physics Movement
+    #region Basic Physics Movement //////////////// Basic Physics Movement //////////////////
     /// <summary>
     /// Applies horizontal movement
     /// </summary>
@@ -137,7 +143,7 @@ public class Platformer : MonoBehaviour
     }
     #endregion
 
-    #region Passive Checks
+    #region Passive Checks ////////////////// Passive Checks //////////////////
     /// <summary>
     /// Applies gravity to vertical movement
     /// </summary>
@@ -171,7 +177,7 @@ public class Platformer : MonoBehaviour
     }
     #endregion
 
-    #region Dash
+    #region Dash //////////////// Dash //////////////////
     /// <summary>
     /// Checks if the player can dash
     /// </summary>
@@ -209,7 +215,7 @@ public class Platformer : MonoBehaviour
     }
     #endregion
 
-    #region Jetpack
+    #region Jetpack //////////////// Jetpack //////////////////
     /// <summary>
     /// waits 0.1 seconds before charging jetpack
     /// </summary>
