@@ -40,6 +40,10 @@ public class Platformer : MonoBehaviour
     public float jet_multiplier, jet_maxMultiplier;
     private float jet_baseMultiplier;
     private bool jet_activated = false;
+    private byte jet_fuel = 100;
+    [SerializeField]
+    private byte jet_fuel_depletion = 2;
+    public byte getFuelValue() { return jet_fuel; }
 
 
     private float x_step = 0.0f;
@@ -55,11 +59,12 @@ public class Platformer : MonoBehaviour
             coyoteeTime || additionalJumps > 0))
                 Jump();
         x_step = Input.GetAxisRaw("Horizontal") * speed;
-        if (Input.GetButtonDown("Fire2")) {
-            Jump();
+        if (Input.GetButtonDown("Fire2") && jet_fuel > 0) {
+            if (jet_fuel > 0)
+                Jump();
             jet_activated = true;
         }
-        if (Input.GetButtonUp("Fire2")) {
+        if (Input.GetButtonUp("Fire2") && jet_fuel > 0) {
             Jump();
             jet_activated = false;
         }
@@ -69,13 +74,14 @@ public class Platformer : MonoBehaviour
     void FixedUpdate() {
         Move();
         JumpVelocityControl();
-        if (jet_activated)
+        if (jet_activated && jet_fuel > 0)
             JetpackUpdate();
         else
             jet_multiplier = jet_baseMultiplier;
 
     }
     void JetpackUpdate() {
+        jet_fuel -= jet_fuel_depletion;
         rb.velocity += Vector2.up * jet_power * jet_multiplier;
         if (jet_multiplier < jet_maxMultiplier)
             jet_multiplier += jet_baseMultiplier;
