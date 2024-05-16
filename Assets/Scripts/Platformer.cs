@@ -11,6 +11,7 @@ public enum Role {
 public class Platformer : MonoBehaviour
 {
     public HealthBar healthBar;
+    #region Variables
     Rigidbody2D rb = null;
 
     [Header("Role")]
@@ -24,6 +25,7 @@ public class Platformer : MonoBehaviour
     public float speed;
 
     [Space(10)]
+        #region Jump Settings
 
     [Header("Jump Settings")]
     public float jumpForce;
@@ -39,37 +41,49 @@ public class Platformer : MonoBehaviour
     int additionalJumps;
     
     [Space(10)]
+        #endregion
     
+        #region Dash Settings
     [Header("Dash Settings")]
     public float dash_multiplier;
     public float dash_duration, baseSpeed, dash_delay;
     bool isDashing = false, canDash = true;
-
     [Space(10)]
+        #endregion
+
+        #region Jet Pack Settings
     [Header("Jet Pack Settings")]
     public float jet_power;
     public float jet_multiplier, jet_maxMultiplier;
     private float jet_baseMultiplier;
     private bool jet_activated = false;
     private sbyte jet_fuel = 0;
-    public sbyte getFuelValue() { return jet_fuel; }
     [SerializeField][Range(0,100)]
     private sbyte max_fuel = 100;
-    public sbyte getMaxFuel() { return max_fuel; }
     [SerializeField][Range(0,100)]
     private sbyte min_fuel = 0;
-    public sbyte getMinFuel() { return min_fuel; }
 
     [SerializeField]
     private sbyte jet_fuel_discharge = 2;
     [SerializeField]
     private sbyte jet_fuel_recharge = 1;
+        #endregion
 
 
     private float x_step = 0.0f;
+    #endregion
 
 
-    
+/// <summary>
+/// ////////////////// GETTERS AND SETTERS //////////////////
+/// </summary>
+
+    public sbyte getFuelValue() { return jet_fuel; }
+    public sbyte getMaxFuel() { return max_fuel; }
+    public sbyte getMinFuel() { return min_fuel; }
+
+/////////////////// END OF GETTERS AND SETTERS //////////////////   
+
 
     void Start() {  
         HpInit();      
@@ -119,6 +133,7 @@ public class Platformer : MonoBehaviour
 
     }
 
+    #region Basic Physics Movement
     /// <summary>
     /// Applies horizontal movement
     /// </summary>
@@ -133,7 +148,9 @@ public class Platformer : MonoBehaviour
         rb.velocity = new Vector2(rb.velocity.x, jumpForce);
         additionalJumps--;
     }
+    #endregion
 
+    #region Passive Checks
     /// <summary>
     /// Applies gravity to vertical movement
     /// </summary>
@@ -165,7 +182,9 @@ public class Platformer : MonoBehaviour
             isGrounded = false;
         }
     }
+    #endregion
 
+    #region Dash
     /// <summary>
     /// Checks if the player can dash
     /// </summary>
@@ -201,7 +220,9 @@ public class Platformer : MonoBehaviour
     void DashDelay() {
         canDash = true;
     }
+    #endregion
 
+    #region Jetpack
     /// <summary>
     /// waits 0.1 seconds before charging jetpack
     /// </summary>
@@ -223,6 +244,7 @@ public class Platformer : MonoBehaviour
         if (jet_multiplier < jet_maxMultiplier)
             jet_multiplier += jet_baseMultiplier;
     }
+    #endregion
 
     /// <summary>
     /// Gizmo for ground check
