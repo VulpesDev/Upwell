@@ -1,12 +1,24 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Unity.Collections;
 using UnityEngine;
 
+public enum Role {
+    Player,
+    Enemy
+}
 public class Platformer : MonoBehaviour
 {
+    public HealthBar healthBar;
     Rigidbody2D rb = null;
+
+    [Header("Role")]
+    public Role role;
+
+    [Header("Health")]
+    public int max_hp;
+    public int current_hp;
 
     [Header("Movement Settings")]
     public float speed;
@@ -59,7 +71,8 @@ public class Platformer : MonoBehaviour
 
     
 
-    void Start() {
+    void Start() {  
+        HpInit();      
         rb = GetComponent<Rigidbody2D>();
         baseSpeed = speed;
         jet_baseMultiplier = jet_multiplier;
@@ -217,5 +230,24 @@ public class Platformer : MonoBehaviour
     private void OnDrawGizmosSelected() {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(groundCheckPos, checkGroundRadius);
+    }
+
+    private void HpInit() {
+    if (role == Role.Player)
+        max_hp = 5;
+    else
+        max_hp = 1;
+    current_hp = max_hp;
+    healthBar.SetMaxHealth(max_hp);
+    }
+
+    public void TakeDamage(int dmg) {
+        current_hp -= dmg;
+        healthBar.SetHealth(current_hp);
+    }
+
+    public void GainHealth(int heal) {
+        current_hp += heal;
+        healthBar.SetHealth(current_hp);
     }
 }
