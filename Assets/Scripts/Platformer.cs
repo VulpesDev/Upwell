@@ -40,10 +40,12 @@ public class Platformer : MonoBehaviour
     public float jet_multiplier, jet_maxMultiplier;
     private float jet_baseMultiplier;
     private bool jet_activated = false;
-    private byte jet_fuel = 100;
+    private sbyte jet_fuel = 100;
+    public sbyte getFuelValue() { return jet_fuel; }
     [SerializeField]
-    private byte jet_fuel_depletion = 2;
-    public byte getFuelValue() { return jet_fuel; }
+    private sbyte jet_fuel_discharge = 2;
+    [SerializeField]
+    private sbyte jet_fuel_recharge = 1;
 
 
     private float x_step = 0.0f;
@@ -53,19 +55,21 @@ public class Platformer : MonoBehaviour
         baseSpeed = speed;
         jet_baseMultiplier = jet_multiplier;
         additionalJumps = defaultAdditionalJumps;
+        StartCoroutine(JetpackDelay());
     }
     void Update() {
         if (Input.GetButtonDown("Jump") && (isGrounded || Time.time - lastTimeGrounded <=
             coyoteeTime || additionalJumps > 0))
                 Jump();
         x_step = Input.GetAxisRaw("Horizontal") * speed;
-        if (Input.GetButtonDown("Fire2") && jet_fuel > 0) {
+        if (Input.GetButtonDown("Fire2")) {
             if (jet_fuel > 0)
                 Jump();
             jet_activated = true;
         }
-        if (Input.GetButtonUp("Fire2") && jet_fuel > 0) {
-            Jump();
+        if (Input.GetButtonUp("Fire2")) {
+            if (jet_fuel > 0)
+                Jump();
             jet_activated = false;
         }
         CheckIfGrounded();
@@ -78,10 +82,18 @@ public class Platformer : MonoBehaviour
             JetpackUpdate();
         else
             jet_multiplier = jet_baseMultiplier;
+        
 
     }
+    IEnumerator JetpackDelay() {
+        yield return new WaitForSeconds(0.1f);
+        if (jet_fuel < 100)
+            jet_fuel += jet_fuel_recharge;
+        StartCoroutine(JetpackDelay());
+    }
     void JetpackUpdate() {
-        jet_fuel -= jet_fuel_depletion;
+        if (jet_fuel - jet_fuel_discharge >= 0)
+            jet_fuel -= jet_fuel_discharge;
         rb.velocity += Vector2.up * jet_power * jet_multiplier;
         if (jet_multiplier < jet_maxMultiplier)
             jet_multiplier += jet_baseMultiplier;
