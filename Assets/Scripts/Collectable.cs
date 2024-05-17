@@ -5,6 +5,7 @@ using UnityEngine;
 public class Collectable : MonoBehaviour
 {
     [SerializeField]    private int     value = 20;
+    [SerializeField]    private float     collect_speed = 20.0f;
     [SerializeField]    private float   magnetic_range = 0.5f;
     [SerializeField]    private Type    type = Type.fuel;
     private enum    Type { fuel, coins };
@@ -20,7 +21,7 @@ public class Collectable : MonoBehaviour
 
     void Update() {
         if (Vector2.Distance(transform.position, GameObject.Find("Player").transform.position) <= magnetic_range)
-            transform.position = Vector3.MoveTowards(transform.position, GameObject.Find("Player").transform.position, Time.deltaTime * 13f);
+            transform.position = Vector3.MoveTowards(transform.position, GameObject.Find("Player").transform.position, Time.deltaTime * collect_speed);
     }
 
     private void OnDrawGizmosSelected() {
