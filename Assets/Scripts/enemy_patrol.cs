@@ -18,7 +18,7 @@ public class enemy_patrol : MonoBehaviour
     public Transform ground_detection;
     public Transform wall_detection;
 
-    private float waitTime = 3.0f;
+    //private float waitTime = 3.0f;
 
     //void Start()
     //{
