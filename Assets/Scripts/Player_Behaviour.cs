@@ -20,6 +20,10 @@ public class Player_Behaviour : MonoBehaviour
 
     [Header("Jump Settings")]
     [SerializeField]    private float       jumpForce = 42.0f;
+    [SerializeField]    private float       jumpCounter = 0f;
+    [SerializeField]    private float       jumpTime = 0.4f;
+    [SerializeField]    private float       jetForce = 21.0f;
+
     [SerializeField]    private float       lowFall_Multiplier = 2.5f;
     [SerializeField]    private float       lowJum_Multiplier = 2f;
     [SerializeField]    private float       checkGroundRadius = 0.24f;
@@ -30,6 +34,7 @@ public class Player_Behaviour : MonoBehaviour
                         private Vector3     groundCheckPos = Vector3.zero;
                         private float       lastTimeGrounded;
                         private int         defaultAdditionalJumps;
+                        private bool        isJumping = false;
     [Space(10)]
         #endregion
 
@@ -113,25 +118,29 @@ public class Player_Behaviour : MonoBehaviour
     /// </summary>
     void Update() {
         if (Input.GetButtonDown("Jump") && (isGrounded || Time.time - lastTimeGrounded <=
-            coyoteeTime || additionalJumps > 0))
+            coyoteeTime || additionalJumps > 0)) {
                 Jump();
+            }
         x_step = Input.GetAxisRaw("Horizontal") * speed * Time.deltaTime * 100;
-        if (Input.GetButtonDown("Fire2")) {
-            if (jet_fuel > min_fuel)
-                Jump();
-            jet_activated = true;
-        }
-        if (Input.GetButtonUp("Fire2")) {
-            if (jet_fuel > min_fuel)
-                Jump();
-            jet_activated = false;
-        }
+        // if (Input.GetButton("Jump") && !isGrounded) {
+        //     if (jet_fuel > min_fuel)
+        //         Jet();
+        //     jet_activated = true;
+        // }
+        
+        // if (Input.GetButtonUp("Jump")) {
+        //     // if (jet_fuel > min_fuel)
+        //     //     Jet();
+        //     jet_activated = false;
+        // }
 
         if (Input.GetButtonDown("Fire3")) {
             attackManager.AttackHit(50);
         }
         
         CheckIfGrounded();
+        Invoke("CheckIfJumping", 0.4f);
+        // CheckIfJumping();
         DashCheck();
     }
 
@@ -165,8 +174,17 @@ public class Player_Behaviour : MonoBehaviour
     /// Applies vertical movement
     /// </summary>
     void Jump()  {
+        jumpCounter = 0;
         rb.velocity = new Vector2(rb.velocity.x, jumpForce);
         additionalJumps--;
+        isJumping = true;
+        Debug.Log("jumping");
+
+    }
+
+    void Jet() {
+        rb.velocity = new Vector2(rb.velocity.x, jetForce);
+
     }
     #endregion
 
@@ -201,6 +219,21 @@ public class Player_Behaviour : MonoBehaviour
                 lastTimeGrounded = Time.time;
             }
             isGrounded = false;
+        }
+
+    }
+
+    void CheckIfJumping() {
+        if (isJumping) {
+            jumpCounter += Time.deltaTime;
+        }
+        if (isGrounded) {
+            isJumping = false;
+            // Debug.Log("false");
+        }
+        if (jumpCounter > jumpTime) {
+            isJumping = false;
+            Debug.Log("false");
         }
     }
     #endregion
