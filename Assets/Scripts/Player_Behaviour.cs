@@ -66,6 +66,7 @@ public class Player_Behaviour : MonoBehaviour
     [SerializeField]    private short   jet_fuel_discharge = 2;
     [SerializeField]    private short   jet_fuel_recharge = 1;
     [SerializeField]    private float   jet_recharge_delay = 1f;
+                        private bool    jet_flag = false;
     [Space(10)]
         #endregion
 
@@ -115,16 +116,18 @@ public class Player_Behaviour : MonoBehaviour
     /// </summary>
     void Update() {
         if (Input.GetButtonDown("Jump") && (isGrounded || Time.time - lastTimeGrounded <=
-            coyoteeTime || additionalJumps > 0))
+            coyoteeTime || additionalJumps > 0)) {
                 Jump();
+                jet_flag = true;
+            }
         x_step = Input.GetAxisRaw("Horizontal") * speed;
-        if (Input.GetButtonDown("Fire2")) {
+        if (Input.GetButtonDown("Jump") && !isGrounded) {
             if (jet_fuel > min_fuel)
                 Jump();
             jet_activated = true;
         }
-        if (Input.GetButtonUp("Fire2")) {
-            if (jet_fuel > min_fuel)
+        if (Input.GetButtonUp("Jump")) {
+            if (jet_fuel > min_fuel && jet_activated)
                 Jump();
             jet_activated = false;
         }
@@ -195,6 +198,7 @@ public class Player_Behaviour : MonoBehaviour
             groundLayer);
 
         if (colliders != null) {
+            jet_flag = false;
             isGrounded = true;
             additionalJumps = defaultAdditionalJumps;
         } 
