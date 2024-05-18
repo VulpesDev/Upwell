@@ -13,25 +13,18 @@ public class Manager : MonoBehaviour
 
     public enum Scene {
         MainMenu,
+        Option,
         MovementTest,
-        Level,
         GameOver,
         GameFinished,
     }
 
+    //test only
     void CheckForInput() {
         if (Input.GetKeyDown(KeyCode.R))
             Reload();
         if (Input.GetKeyDown(KeyCode.M)) // test phrase only
             LoadScene(Scene.MainMenu);
-        // if(Input.GetKeyDown(KeyCode.Period))
-        // {
-        //     NextScene();
-        // }
-        // if (Input.GetKeyDown(KeyCode.Comma))
-        // {
-        //     PreviousScene();
-        // }
     }
 
     void Update() {
