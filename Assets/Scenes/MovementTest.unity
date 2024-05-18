@@ -209,7 +209,7 @@ GameObject:
   - component: {fileID: 4982300}
   - component: {fileID: 4982302}
   - component: {fileID: 4982301}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -284,7 +284,7 @@ GameObject:
   - component: {fileID: 114749660}
   - component: {fileID: 114749662}
   - component: {fileID: 114749661}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Border
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -434,7 +434,7 @@ GameObject:
   - component: {fileID: 434620929}
   - component: {fileID: 434620931}
   - component: {fileID: 434620930}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Health Bar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -574,7 +574,7 @@ GameObject:
   - component: {fileID: 500471903}
   - component: {fileID: 500471902}
   - component: {fileID: 500471901}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -752,7 +752,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.0000022053719, y: 2, z: -10}
+  m_LocalPosition: {x: -9.209998, y: -6.0200005, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -821,7 +821,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 538299838}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: wall detection
   m_TagString: Untagged
   m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
@@ -837,7 +837,7 @@ Transform:
   m_GameObject: {fileID: 538299837}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.92, y: 0.18, z: 0}
+  m_LocalPosition: {x: 0.72, y: 0.14, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1063,7 +1063,7 @@ GameObject:
   - component: {fileID: 842405422}
   - component: {fileID: 842405424}
   - component: {fileID: 842405423}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1192,7 +1192,7 @@ Transform:
   m_GameObject: {fileID: 863869682}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.0000022053719, y: 2, z: -10}
+  m_LocalPosition: {x: -9.209998, y: -6.0200005, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1388,7 +1388,7 @@ GameObject:
   - component: {fileID: 1018468954}
   - component: {fileID: 1018468956}
   - component: {fileID: 1018468955}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: Border
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1467,7 +1467,9 @@ GameObject:
   - component: {fileID: 1061645826}
   - component: {fileID: 1061645832}
   - component: {fileID: 1061645831}
-  m_Layer: 0
+  - component: {fileID: 1061645833}
+  - component: {fileID: 1061645834}
+  m_Layer: 7
   m_Name: Enemy
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -1610,7 +1612,7 @@ Transform:
   m_GameObject: {fileID: 1061645825}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0.00000001490116, w: 1}
-  m_LocalPosition: {x: -13.18, y: 1.17, z: 0}
+  m_LocalPosition: {x: -9.31, y: 1.22, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1626,12 +1628,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1061645825}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5ef135321e01646deae3854d73af2b2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
+  minTime: 1
+  maxTime: 5
   ground_detection: {fileID: 1238932112}
   wall_detection: {fileID: 538299838}
 --- !u!114 &1061645832
@@ -1646,6 +1649,55 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4185f7abc40614784ae7819f890a30fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  view_radius: 9.4
+  detection_check_delay: 0.1
+  target: {fileID: 0}
+  player_layermask:
+    serializedVersion: 2
+    m_Bits: 64
+  visibility_layer:
+    serializedVersion: 2
+    m_Bits: 200
+  <target_visible>k__BackingField: 0
+  is_chasing: 0
+  player_transform: {fileID: 8156458360194085407}
+  ground_detection: {fileID: 1238932112}
+  wall_detection: {fileID: 538299838}
+--- !u!114 &1061645833
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1061645825}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates: []
+--- !u!114 &1061645834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1061645825}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 823b3ea32836f4098a7ef60a71c5e078, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  view_radius: 9.5
+  detection_check_delay: 0.1
+  target: {fileID: 0}
+  player_layermask:
+    serializedVersion: 2
+    m_Bits: 64
+  visibility_layer:
+    serializedVersion: 2
+    m_Bits: 200
+  <target_visible>k__BackingField: 0
 --- !u!1 &1238932111
 GameObject:
   m_ObjectHideFlags: 0
@@ -1655,7 +1707,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1238932112}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: ground_detection
   m_TagString: Untagged
   m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
@@ -1671,7 +1723,7 @@ Transform:
   m_GameObject: {fileID: 1238932111}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: 0.00000001490116, w: 1}
-  m_LocalPosition: {x: 0.93, y: -0.67, z: 0}
+  m_LocalPosition: {x: 1.25, y: -0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1854,7 +1906,7 @@ GameObject:
   - component: {fileID: 1814130155}
   - component: {fileID: 1814130156}
   - component: {fileID: 1814130157}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: Health Bar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1958,7 +2010,7 @@ GameObject:
   - component: {fileID: 1850163418}
   - component: {fileID: 1850163417}
   - component: {fileID: 1850163416}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2301,7 +2353,7 @@ GameObject:
   - component: {fileID: 8156458360194085408}
   - component: {fileID: 2182174428962106185}
   - component: {fileID: 1832872260712406071}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -2360,6 +2412,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: mainGround
       objectReference: {fileID: 0}
+    - target: {fileID: 4702969432279696907, guid: d5d4017740cff474981a2592fe5ae3bb, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 23.13541
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7414712267771918685, guid: d5d4017740cff474981a2592fe5ae3bb, type: 3}
     m_RemovedGameObjects: []
@@ -2378,7 +2434,7 @@ Transform:
   m_GameObject: {fileID: 4801119747147001010}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0.00000001490116, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -9.21, y: -8.02, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2398,7 +2454,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitBox:
-    pos: {x: 1.6, y: 0}
+    pos: {x: -7.61, y: -8.02}
     x_offset: 1.6
     radius: 1
     invert: 0

@@ -2,9 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy_ai : MonoBehaviour
+public class ai_chase : MonoBehaviour
 {
-    // look for player
     [Range(1, 15)]
     [SerializeField]
     private float view_radius = 5;
@@ -30,87 +29,28 @@ public class Enemy_ai : MonoBehaviour
         }
     }
 
-    // chasing
-    public bool is_chasing;
-    public Transform player_transform;
-
-    // patrol
-    private float speed = 5;
-    private bool move_right = true;
-    public Transform ground_detection;
-    public Transform wall_detection;
-
-    void Start()
+    private void Start()
     {
         StartCoroutine(detection_delay());
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (detected != null)
             target_visible = check_target_visible();
-        if (target_visible)
-            is_chasing = true;
-        else
-            is_chasing = false;
-        if (is_chasing)
-        {
-            rotate_towards_player();
-        }
-        else
-        {
-            enemy_patrol();
-        }
-        
     }
 
-    // idle state
-    private void enemy_patrol()
-    {
-        transform.Translate(Vector2.right * speed * Time.deltaTime);
-        RaycastHit2D ground_info = Physics2D.Raycast(ground_detection.position, Vector2.down, 5.0f, LayerMask.GetMask("Ground"));
-        RaycastHit2D wall_info = Physics2D.Raycast(wall_detection.position, transform.right, 0.2f, LayerMask.GetMask("Ground"));
-
-        if (ground_info.collider == null || wall_info.collider != null)
-        {
-            if (move_right == true)
-            {
-                transform.eulerAngles = new Vector3(0, -180, 0);
-                move_right = false;
-            }
-            else if (move_right == false)
-            {
-                transform.eulerAngles = new Vector3(0, 0, 0);
-                move_right = true;
-            }
-        }
-    }
-    // player found, move there
-    private void rotate_towards_player()
-    {
-        if (transform.position.x > player_transform.position.x)
-        {
-            transform.position += Vector3.left * speed * Time.deltaTime;
-        }
-        else if (transform.position.x < player_transform.position.x)
-        {
-            transform.position += Vector3.right * speed * Time.deltaTime;
-        }
-    }
-
-    // look for player
     private bool check_target_visible()
     {
         var result = Physics2D.Raycast(transform.position, detected.position - transform.position, 30f,
             visibility_layer);
         if (result.collider != null)
         {
-            //Debug.Log("Target visible");
+            Debug.Log("Target visible");
             return (player_layermask & (1 << result.collider.gameObject.layer)) != 0;
         }
-        //else
-        //Debug.Log("Target is NOT visible");
+        else
+            Debug.Log("Target is NOT visible");
         return false;
     }
 
@@ -128,7 +68,7 @@ public class Enemy_ai : MonoBehaviour
         if (detected == null || detected.gameObject.activeSelf == false || Vector2.Distance(transform.position,
             detected.position) > view_radius)
         {
-            detected = null;
+               detected = null;
         }
     }
 
@@ -138,7 +78,7 @@ public class Enemy_ai : MonoBehaviour
         if (collision != null)
         {
             detected = collision.transform;
-            //Debug.Log("Target detected");
+            Debug.Log("Target detected");
         }
     }
 
@@ -157,4 +97,3 @@ public class Enemy_ai : MonoBehaviour
             Gizmos.DrawLine(transform.position, detected.position - transform.position);
     }
 }
-
