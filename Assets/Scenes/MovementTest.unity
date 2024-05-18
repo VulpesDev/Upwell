@@ -231,7 +231,7 @@ RectTransform:
   m_Father: {fileID: 1814130155}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -2016,7 +2016,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1850163416
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2319,7 +2319,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 342f9af5e786ba4428050a2dd94a32e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 8
+  speed: 30
   jumpForce: 42
   lowFall_Multiplier: 2.5
   lowJum_Multiplier: 2
@@ -2335,14 +2335,10 @@ MonoBehaviour:
   jet_power: 0.25
   jet_multiplier: 1
   jet_maxMultiplier: 100
-  max_fuel: 50
+  max_fuel: 25
   min_fuel: 0
   jet_fuel_discharge: 2
-  jet_fuel_recharge: 2
-  jet_recharge_delay: 0.8
-  delayColInvert: 0.05
-  damage: 100
-  damage_on_fall: 100
+  jet_fuel_recharge: 1
 --- !u!1 &4801119747147001010
 GameObject:
   m_ObjectHideFlags: 0
@@ -2372,14 +2368,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 118554325967701449, guid: d5d4017740cff474981a2592fe5ae3bb, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 17.361275
-      objectReference: {fileID: 0}
-    - target: {fileID: 118554325967701449, guid: d5d4017740cff474981a2592fe5ae3bb, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -2.5986
-      objectReference: {fileID: 0}
     - target: {fileID: 234330278159948784, guid: d5d4017740cff474981a2592fe5ae3bb, type: 3}
       propertyPath: m_LocalPosition.x
       value: -10.1
@@ -2420,26 +2408,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 561256729103083644, guid: d5d4017740cff474981a2592fe5ae3bb, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 561256729103083644, guid: d5d4017740cff474981a2592fe5ae3bb, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 830128276450468135, guid: d5d4017740cff474981a2592fe5ae3bb, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 19.67
-      objectReference: {fileID: 0}
-    - target: {fileID: 830128276450468135, guid: d5d4017740cff474981a2592fe5ae3bb, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.74
-      objectReference: {fileID: 0}
-    - target: {fileID: 3056773784604421765, guid: d5d4017740cff474981a2592fe5ae3bb, type: 3}
-      propertyPath: m_Layer
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 3849523170434124094, guid: d5d4017740cff474981a2592fe5ae3bb, type: 3}
       propertyPath: m_Name
       value: mainGround
@@ -2451,10 +2419,7 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 7414712267771918685, guid: d5d4017740cff474981a2592fe5ae3bb, type: 3}
     m_RemovedGameObjects: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 234330278159948784, guid: d5d4017740cff474981a2592fe5ae3bb, type: 3}
-      insertIndex: 11
-      addedObject: {fileID: 1728265991}
+    m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 4568325171397793972, guid: d5d4017740cff474981a2592fe5ae3bb, type: 3}
       insertIndex: -1
@@ -2492,13 +2457,7 @@ MonoBehaviour:
     pos: {x: -7.61, y: -8.02}
     x_offset: 1.6
     radius: 1
-    x_invert: 0
-    y_invert: 0
-  - x_offset: 0
-    y_offset: -0.99
-    radius: 0.47
-    x_invert: 0
-    y_invert: 0
+    invert: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
