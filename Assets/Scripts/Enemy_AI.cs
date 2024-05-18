@@ -32,7 +32,7 @@ public class Enemy_ai : MonoBehaviour
 
     // chasing
     public bool is_chasing;
-    public Transform player_transform;
+    private Transform player_transform;
 
     // patrol
     private float speed = 5;
@@ -42,6 +42,7 @@ public class Enemy_ai : MonoBehaviour
 
     void Start()
     {
+        player_transform = GameObject.FindGameObjectWithTag("Player").transform;
         StartCoroutine(detection_delay());
     }
 
