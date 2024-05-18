@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Unity.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Player_Behaviour : MonoBehaviour
 {
@@ -135,6 +136,18 @@ public class Player_Behaviour : MonoBehaviour
         DashCheck();
     }
 
+    public void OnMove(InputAction.CallbackContext ctxt) {
+        if (ctxt.performed)
+            Debug.Log("move key detected");
+    }
+    public void OnJump(InputAction.CallbackContext ctxt) {
+        if (ctxt.performed)
+            Debug.Log("jump key detected");
+    }
+    public void OnJet(InputAction.CallbackContext ctxt) {
+        if (ctxt.performed)
+            Debug.Log("jet key detected");
+    }
     /// <summary>
     /// Physics calculations are made in the FixedUpdate and calculated 
     /// using the time between frames for stable calculations across different hardware
