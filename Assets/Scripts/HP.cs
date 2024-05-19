@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class HP : MonoBehaviour
 {
-    [SerializeField]    private Slider      hpBar;
+    // [SerializeField]    private Slider      hpBar;
     [SerializeField]    private GameObject  drop = null;
     [SerializeField]    private int         maxHP = 100;
                         private int         currentHP;
@@ -33,7 +33,7 @@ public class HP : MonoBehaviour
             currentHP = maxHP;
         else
             Die();
-        hpBar.value = currentHP;
+        // hpBar.value = currentHP;
     }
 
     public void takeDamage(int damage) {
@@ -41,7 +41,7 @@ public class HP : MonoBehaviour
         if (currentHP <= 0) {
             Die();
         }
-        hpBar.value = currentHP;
+        // hpBar.value = currentHP;
     }
 
     public void takeHeal(int heal) {
