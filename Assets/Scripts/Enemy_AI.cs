@@ -66,14 +66,17 @@ public class Enemy_ai : MonoBehaviour
         
     }
 
+    private bool Grounded() {
+        RaycastHit2D ground_info = Physics2D.Raycast(ground_detection.position, Vector2.down, 1.0f, LayerMask.GetMask("Ground"));
+        return ground_info.collider != null;
+    }
     // idle state
     private void enemy_patrol()
     {
         transform.Translate(Vector2.right * speed * Time.deltaTime);
-        RaycastHit2D ground_info = Physics2D.Raycast(ground_detection.position, Vector2.down, 1.0f, LayerMask.GetMask("Ground"));
         RaycastHit2D wall_info = Physics2D.Raycast(wall_detection.position, transform.right, 0.2f, LayerMask.GetMask("Ground"));
 
-        if (ground_info.collider == null || wall_info.collider != null)
+        if (!Grounded() || wall_info.collider != null)
         {
             if (move_right == true)
             {
@@ -90,12 +93,16 @@ public class Enemy_ai : MonoBehaviour
     // player found, move there
     private void rotate_towards_player()
     {
+        if (!Grounded())
+            return;
         if (transform.position.x > player_transform.position.x)
         {
+            transform.eulerAngles = new Vector3(0, -180, 0);
             transform.position += Vector3.left * speed * Time.deltaTime;
         }
         else if (transform.position.x < player_transform.position.x)
         {
+            transform.eulerAngles = new Vector3(0, 0, 0);
             transform.position += Vector3.right * speed * Time.deltaTime;
         }
     }

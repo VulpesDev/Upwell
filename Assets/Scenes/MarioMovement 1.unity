@@ -383,7 +383,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4185f7abc40614784ae7819f890a30fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  view_radius: 5
+  view_radius: 6
   detection_check_delay: 0.1
   target: {fileID: 0}
   player_layermask:
@@ -2619,7 +2619,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4185f7abc40614784ae7819f890a30fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  view_radius: 5
+  view_radius: 6
   detection_check_delay: 0.1
   target: {fileID: 0}
   player_layermask:
@@ -2897,7 +2897,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4185f7abc40614784ae7819f890a30fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  view_radius: 5
+  view_radius: 6
   detection_check_delay: 0.1
   target: {fileID: 0}
   player_layermask:
@@ -3157,7 +3157,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4185f7abc40614784ae7819f890a30fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  view_radius: 5
+  view_radius: 6
   detection_check_delay: 0.1
   target: {fileID: 0}
   player_layermask:
@@ -3342,7 +3342,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4185f7abc40614784ae7819f890a30fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  view_radius: 5
+  view_radius: 6
   detection_check_delay: 0.1
   target: {fileID: 0}
   player_layermask:
@@ -3558,7 +3558,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4185f7abc40614784ae7819f890a30fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  view_radius: 5
+  view_radius: 6
   detection_check_delay: 0.1
   target: {fileID: 0}
   player_layermask:
@@ -4664,7 +4664,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4185f7abc40614784ae7819f890a30fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  view_radius: 5
+  view_radius: 6
   detection_check_delay: 0.1
   target: {fileID: 0}
   player_layermask:
@@ -4880,7 +4880,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4185f7abc40614784ae7819f890a30fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  view_radius: 5
+  view_radius: 6
   detection_check_delay: 0.1
   target: {fileID: 0}
   player_layermask:
@@ -5096,7 +5096,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4185f7abc40614784ae7819f890a30fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  view_radius: 5
+  view_radius: 6
   detection_check_delay: 0.1
   target: {fileID: 0}
   player_layermask:
@@ -7348,7 +7348,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4185f7abc40614784ae7819f890a30fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  view_radius: 5
+  view_radius: 6
   detection_check_delay: 0.1
   target: {fileID: 0}
   player_layermask:
@@ -7564,7 +7564,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4185f7abc40614784ae7819f890a30fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  view_radius: 5
+  view_radius: 6
   detection_check_delay: 0.1
   target: {fileID: 0}
   player_layermask:
@@ -7904,7 +7904,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4185f7abc40614784ae7819f890a30fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  view_radius: 5
+  view_radius: 6
   detection_check_delay: 0.1
   target: {fileID: 0}
   player_layermask:
@@ -8227,7 +8227,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4185f7abc40614784ae7819f890a30fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  view_radius: 5
+  view_radius: 6
   detection_check_delay: 0.1
   target: {fileID: 0}
   player_layermask:
@@ -8794,7 +8794,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4185f7abc40614784ae7819f890a30fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  view_radius: 5
+  view_radius: 6
   detection_check_delay: 0.1
   target: {fileID: 0}
   player_layermask:
@@ -9089,7 +9089,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4185f7abc40614784ae7819f890a30fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  view_radius: 5
+  view_radius: 6
   detection_check_delay: 0.1
   target: {fileID: 0}
   player_layermask:
@@ -9568,7 +9568,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4185f7abc40614784ae7819f890a30fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  view_radius: 5
+  view_radius: 6
   detection_check_delay: 0.1
   target: {fileID: 0}
   player_layermask:
@@ -11740,7 +11740,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4185f7abc40614784ae7819f890a30fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  view_radius: 5
+  view_radius: 6
   detection_check_delay: 0.1
   target: {fileID: 0}
   player_layermask:
@@ -11939,7 +11939,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4185f7abc40614784ae7819f890a30fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  view_radius: 5
+  view_radius: 6
   detection_check_delay: 0.1
   target: {fileID: 0}
   player_layermask:
@@ -12141,7 +12141,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4185f7abc40614784ae7819f890a30fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  view_radius: 5
+  view_radius: 6
   detection_check_delay: 0.1
   target: {fileID: 0}
   player_layermask:
@@ -12309,7 +12309,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4185f7abc40614784ae7819f890a30fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  view_radius: 5
+  view_radius: 6
   detection_check_delay: 0.1
   target: {fileID: 0}
   player_layermask:
@@ -12525,7 +12525,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4185f7abc40614784ae7819f890a30fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  view_radius: 5
+  view_radius: 6
   detection_check_delay: 0.1
   target: {fileID: 0}
   player_layermask:
@@ -12795,7 +12795,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4185f7abc40614784ae7819f890a30fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  view_radius: 5
+  view_radius: 6
   detection_check_delay: 0.1
   target: {fileID: 0}
   player_layermask:
@@ -12963,7 +12963,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4185f7abc40614784ae7819f890a30fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  view_radius: 5
+  view_radius: 6
   detection_check_delay: 0.1
   target: {fileID: 0}
   player_layermask:
@@ -13241,7 +13241,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4185f7abc40614784ae7819f890a30fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  view_radius: 5
+  view_radius: 6
   detection_check_delay: 0.1
   target: {fileID: 0}
   player_layermask:

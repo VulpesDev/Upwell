@@ -120,16 +120,19 @@ public class Player_Behaviour : MonoBehaviour
     void Update() {
         if (Input.GetButtonDown("Jump") && (isGrounded || Time.time - lastTimeGrounded <=
             coyoteeTime || additionalJumps > 0)) {
+                //here it's normal jump
                 Jump();
                 jet_flag = true;
             }
         x_step = Input.GetAxisRaw("Horizontal") * speed;
         if (Input.GetButtonDown("Jump") && !isGrounded) {
+            //here it's jetpack
             if (jet_fuel > min_fuel)
                 Jump();
             jet_activated = true;
         }
         if (Input.GetButtonUp("Jump")) {
+            //here it's end of using jetpack (it pushes the player up a bit, before stopping the jet)
             if (jet_fuel > min_fuel && jet_activated)
                 Jump();
             jet_activated = false;
