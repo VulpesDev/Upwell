@@ -26,4 +26,8 @@ public class Multiplier : MonoBehaviour
         multiply = value;
         tMP_Text.text = multiply.ToString();
     }
+
+    public static int getMultiplier() {
+        return multiply;
+    }
 }

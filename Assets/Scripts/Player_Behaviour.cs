@@ -54,6 +54,7 @@ public class Player_Behaviour : MonoBehaviour
     [SerializeField]    private float   jet_power = 0.25f;
     [SerializeField]    private float   jet_multiplier = 1;
     [SerializeField]    private float   jet_maxMultiplier = 100;
+                        private float   jet_initMaxMultiplier = 0;
                         private float   jet_baseMultiplier;
                         private bool    jet_activated = false;
                         private short   jet_fuel = 0;
@@ -67,6 +68,7 @@ public class Player_Behaviour : MonoBehaviour
     [SerializeField]    private short   jet_fuel_recharge = 1;
     [SerializeField]    private float   jet_recharge_delay = 1f;
                         private bool    jet_flag = false;
+                        private bool    hyper_state = false;
     [Space(10)]
         #endregion
 
@@ -105,6 +107,7 @@ public class Player_Behaviour : MonoBehaviour
         baseSpeed = speed;
         jet_baseMultiplier = jet_multiplier;
         additionalJumps = defaultAdditionalJumps;
+        jet_initMaxMultiplier = jet_maxMultiplier;
         attackManager = GetComponent<Attack>();
         StartCoroutine(JetpackDelay());
     }
@@ -138,6 +141,7 @@ public class Player_Behaviour : MonoBehaviour
         
         CheckIfGrounded();
         DashCheck();
+        CheckHyperState();
     }
 
     /// <summary>
@@ -214,10 +218,18 @@ public class Player_Behaviour : MonoBehaviour
         }
     }
 
-    void StepOnMeMommy() {
-
+    void CheckHyperState() {
+        if (Multiplier.getMultiplier() >= 300) {
+            hyper_state = true;
+            jet_fuel = max_fuel;
+            jet_maxMultiplier = jet_initMaxMultiplier * 2;
+        }
+        else {
+            jet_maxMultiplier = jet_initMaxMultiplier;
+            hyper_state = false;
+        }
     }
-    
+
     #endregion
 
     #region Dash

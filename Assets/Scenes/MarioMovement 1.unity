@@ -2006,7 +2006,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 342f9af5e786ba4428050a2dd94a32e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 8
+  speed: 7
   jumpForce: 42
   lowFall_Multiplier: 2.5
   lowJum_Multiplier: 2
@@ -2019,10 +2019,10 @@ MonoBehaviour:
   dash_multiplier: 4
   dash_duration: 0.2
   dash_delay: 0.5
-  jet_power: 0.25
-  jet_multiplier: 1
-  jet_maxMultiplier: 100
-  max_fuel: 50
+  jet_power: 0.15
+  jet_multiplier: 2
+  jet_maxMultiplier: 10
+  max_fuel: 100
   min_fuel: 0
   jet_fuel_discharge: 2
   jet_fuel_recharge: 2
