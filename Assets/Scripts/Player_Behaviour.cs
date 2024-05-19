@@ -198,6 +198,7 @@ public class Player_Behaviour : MonoBehaviour
             groundLayer);
 
         if (colliders != null) {
+            Multiplier.setMultiplier(1);
             jet_flag = false;
             isGrounded = true;
             additionalJumps = defaultAdditionalJumps;
@@ -208,8 +209,9 @@ public class Player_Behaviour : MonoBehaviour
             }
             isGrounded = false;
         }
-        if (attackManager.AttackHit(damage_on_fall, 1))
+        if (attackManager.AttackHit(damage_on_fall, 1)) {
             Jump();
+        }
     }
 
     void StepOnMeMommy() {

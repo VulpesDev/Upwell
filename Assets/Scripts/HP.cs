@@ -7,17 +7,26 @@ public class HP : MonoBehaviour
     [SerializeField]    private GameObject  drop = null;
     [SerializeField]    private int         maxHP = 100;
                         private int         currentHP;
+                        private Animator    animator;
 
     private void Die() {
         //dying sequence
         //this includes animations and object management (delete)
         //plus optionally additional behaviour (like respawning... etc.)
+        if (animator)
+            animator.SetTrigger("die");
+    }
+    public void Delete() {
+        if (tag == "Enemy") {
+            Multiplier.addMultiplier(17);
+        }
         if (drop != null)
             Instantiate(drop, transform.position, Quaternion.identity);
         Destroy(gameObject, 0.1f);
     }
 
     void Start() {
+        animator = GetComponent<Animator>();
         if (maxHP > 0)
             currentHP = maxHP;
         else

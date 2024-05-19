@@ -100,7 +100,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   value: 20
   collect_speed: 20
-  magnetic_range: 8
+  magnetic_range: 15
   type: 0
 --- !u!61 &7920199697160049465
 BoxCollider2D:
