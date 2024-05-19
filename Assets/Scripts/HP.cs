@@ -9,6 +9,13 @@ public class HP : MonoBehaviour
                         private int         currentHP;
                         private Animator    animator;
 
+    AudioManager audio_man;
+
+    private void Awake()
+    {
+        audio_man = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
+
     private void Die() {
         //dying sequence
         //this includes animations and object management (delete)
@@ -16,6 +23,8 @@ public class HP : MonoBehaviour
         
         if (animator)
             animator.SetTrigger("die");
+        audio_man.play_sfx(audio_man.death);
+
     }
     public void ComboAdd() {
             Multiplier.addMultiplier(17);
@@ -32,7 +41,10 @@ public class HP : MonoBehaviour
         if (maxHP > 0)
             currentHP = maxHP;
         else
+        {
             Die();
+            //audio_man.play_sfx(audio_man.death);
+        }
         // hpBar.value = currentHP;
     }
 

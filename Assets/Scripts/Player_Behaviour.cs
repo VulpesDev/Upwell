@@ -9,6 +9,8 @@ public class Player_Behaviour : MonoBehaviour
     #region Variables
     Rigidbody2D rb = null;
 
+    AudioManager audio_man;
+
     [Header("Movement Settings")]
     public float    speed = 30.0f;
     private float   x_step = 0.0f;
@@ -97,10 +99,15 @@ public class Player_Behaviour : MonoBehaviour
     public void setFuelValue(short value) { jet_fuel = value; }
     public void addFuelValue(short value) { jet_fuel += value; }
 
-/////////////////// END OF GETTERS AND SETTERS //////////////////   
-#endregion
+    /////////////////// END OF GETTERS AND SETTERS //////////////////   
+    #endregion
 
-#region Start and Update
+    private void Awake()
+    {
+        audio_man = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
+
+    #region Start and Update
     ///////////////// Start and Update /////////////////
     void Start() {
         rb = GetComponent<Rigidbody2D>();
@@ -120,11 +127,13 @@ public class Player_Behaviour : MonoBehaviour
     void Update() {
         if (Input.GetButtonDown("Jump") && (isGrounded || Time.time - lastTimeGrounded <=
             coyoteeTime || additionalJumps > 0)) {
+            audio_man.play_sfx(audio_man.jump);
                 Jump();
                 jet_flag = true;
             }
         x_step = Input.GetAxisRaw("Horizontal") * speed;
         if (Input.GetButtonDown("Jump") && !isGrounded) {
+            audio_man.play_sfx(audio_man.jetpack);
             if (jet_fuel > min_fuel)
                 Jump();
             jet_activated = true;
