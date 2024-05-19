@@ -5,9 +5,9 @@ using UnityEngine;
 public class Enemy_ai : MonoBehaviour
 {
     // look for player
-    [Range(1, 15)]
+    [Range(1, 40)]
     [SerializeField]
-    private float view_radius = 5;
+    private float view_radius = 40;
     [SerializeField]
     private float detection_check_delay = 0.1f;
     [SerializeField]
@@ -40,9 +40,20 @@ public class Enemy_ai : MonoBehaviour
     public Transform ground_detection;
     public Transform wall_detection;
 
+    // shooting
+    [SerializeField]
+    private float stop_distance = 5;
+    [SerializeField]
+    private float retreat_distance = 3;
+    private float time_btw_shots;
+    [SerializeField]
+    private float start_time_btw_shots = 0.2f;
+    public GameObject bullet;
+
     void Start()
     {
         player_transform = GameObject.FindGameObjectWithTag("Player").transform;
+        time_btw_shots = start_time_btw_shots;
         StartCoroutine(detection_delay());
     }
 
@@ -51,17 +62,53 @@ public class Enemy_ai : MonoBehaviour
     {
         if (detected != null)
             target_visible = check_target_visible();
-        if (target_visible)
+        RaycastHit2D ground_in = Physics2D.Raycast(ground_detection.position, Vector2.down, 2.0f, LayerMask.GetMask("Ground"));
+        Debug.Log("Ground Detected: " + (ground_in.collider != null));
+        if (ground_in.collider == null)
+        {
+            Debug.Log("NO FLOOR!!");
+            transform.position = Vector2.MoveTowards(transform.position, ground_in.point, -speed * Time.deltaTime);
+            transform.position = this.transform.position;
+            is_chasing = false;
+        }
+        else if (target_visible)
             is_chasing = true;
         else
             is_chasing = false;
-        if (is_chasing)
+
+        Debug.Log("chasing : " + is_chasing);
+
+        if (is_chasing && Vector2.Distance(transform.position, detected.position) < stop_distance && Vector2.Distance(transform.position, detected.position) > retreat_distance)
         {
+            transform.position = this.transform.position;
+            Debug.Log("player is close so stop");
+        }
+        else if (is_chasing && Vector2.Distance(transform.position, detected.position) < retreat_distance)
+        {
+            Debug.Log("retreat from player");
+            transform.position = Vector2.MoveTowards(transform.position, detected.position, -speed * Time.deltaTime);
+        }
+        else if (is_chasing)
+        {
+            Debug.Log("chasing player");
             rotate_towards_player();
         }
         else
         {
+            Debug.Log("no danger so patrol");
             enemy_patrol();
+        }
+
+        if (target_visible && time_btw_shots <= 0)
+        {
+            //Debug.Log("spawn ");
+            Instantiate(bullet, transform.position, Quaternion.identity);
+
+            time_btw_shots = start_time_btw_shots;
+        }
+        else if (target_visible && time_btw_shots > 0)
+        {
+            time_btw_shots -= Time.deltaTime;
         }
         
     }
@@ -69,9 +116,9 @@ public class Enemy_ai : MonoBehaviour
     // idle state
     private void enemy_patrol()
     {
-        transform.Translate(Vector2.right * speed * Time.deltaTime);
-        RaycastHit2D ground_info = Physics2D.Raycast(ground_detection.position, Vector2.down, 5.0f, LayerMask.GetMask("Ground"));
-        RaycastHit2D wall_info = Physics2D.Raycast(wall_detection.position, transform.right, 0.2f, LayerMask.GetMask("Ground"));
+        transform.Translate(Vector2.right * speed * Time.deltaTime); 
+        RaycastHit2D ground_info = Physics2D.Raycast(ground_detection.position, Vector2.down, 2.0f, LayerMask.GetMask("Ground"));
+        RaycastHit2D wall_info = Physics2D.Raycast(wall_detection.position, transform.right, 0.8f, LayerMask.GetMask("Ground"));
 
         if (ground_info.collider == null || wall_info.collider != null)
         {
@@ -90,6 +137,15 @@ public class Enemy_ai : MonoBehaviour
     // player found, move there
     private void rotate_towards_player()
     {
+        ////RaycastHit2D ground_info = Physics2D.Raycast(ground_detection.position, Vector2.down, 3.0f, LayerMask.GetMask("Ground"));
+        //if (ground_info.collider == null)
+        //{
+        //    //transform.position = Vector2.MoveTowards(transform.position, ground_info.point, -speed * Time.deltaTime);
+        //    Debug.Log("NO FLOOR!!");
+        //    //transform.position = this.transform.position;
+        //    is_chasing = false;
+        //    return;
+        //}
         if (transform.position.x > player_transform.position.x)
         {
             transform.position += Vector3.left * speed * Time.deltaTime;
@@ -103,7 +159,7 @@ public class Enemy_ai : MonoBehaviour
     // look for player
     private bool check_target_visible()
     {
-        var result = Physics2D.Raycast(transform.position, detected.position - transform.position, 30f,
+        var result = Physics2D.Raycast(transform.position, detected.position - transform.position, 40f,
             visibility_layer);
         if (result.collider != null)
         {
