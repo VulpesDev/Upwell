@@ -13,13 +13,14 @@ public class HP : MonoBehaviour
         //dying sequence
         //this includes animations and object management (delete)
         //plus optionally additional behaviour (like respawning... etc.)
+        if (tag == "Enemy") {
+            Multiplier.addMultiplier(17);
+        }
         if (animator)
             animator.SetTrigger("die");
     }
     public void Delete() {
-        if (tag == "Enemy") {
-            Multiplier.addMultiplier(17);
-        }
+        
         if (drop != null)
             Instantiate(drop, transform.position, Quaternion.identity);
         Destroy(gameObject, 0.1f);
