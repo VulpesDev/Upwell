@@ -8,17 +8,17 @@ public class Manager : MonoBehaviour
     public static Manager Instance;
 
     private void Awake() {
-        if (!Instance)
+        // if (!Instance)
             Instance = this;
-        else if (Instance != this)
-            Destroy(this);
-        DontDestroyOnLoad(this);
+        // else if (Instance != this)
+        //     Destroy(this);
+        // DontDestroyOnLoad(this);
     }
 
     public enum Scene {
         MainMenu,
         Option,
-        MovementTest,
+        MarioMovement1,
         GameOver,
         GameFinished,
     }

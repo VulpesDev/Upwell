@@ -23,13 +23,13 @@ public class InputManager : MonoBehaviour
         return false;
     }
 
-    public void OnMove(InputAction.CallbackContext ctxt) {
-        if (ctxt.performed)
-            Debug.Log("move key detected");
-    }
+    // public void OnMove(InputAction.CallbackContext ctxt) {
+    //     if (ctxt.performed)
+    //         Debug.Log("move key detected");
+    // }
 
-    public void OnJump(InputAction.CallbackContext ctxt) {
-        if (ctxt.performed)
-            Debug.Log("jump key detected");
-    }
+    // public void OnJump(InputAction.CallbackContext ctxt) {
+    //     if (ctxt.performed)
+    //         Debug.Log("jump key detected");
+    // }
 }

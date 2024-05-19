@@ -57,16 +57,17 @@ public class Player_Behaviour : MonoBehaviour
     [SerializeField]    private float   jet_maxMultiplier = 100;
                         private float   jet_baseMultiplier;
                         private bool    jet_activated = false;
-                        private sbyte   jet_fuel = 0;
+                        private short   jet_fuel = 0;
     
     [SerializeField][Range(0,100)]
-                        private sbyte   max_fuel = 100;
+                        private short   max_fuel = 100;
     [SerializeField][Range(0,100)]
-                        private sbyte   min_fuel = 0;
+                        private short   min_fuel = 0;
 
-    [SerializeField]    private sbyte   jet_fuel_discharge = 2;
-    [SerializeField]    private sbyte   jet_fuel_recharge = 1;
+    [SerializeField]    private short   jet_fuel_discharge = 2;
+    [SerializeField]    private short   jet_fuel_recharge = 1;
     [SerializeField]    private float   jet_recharge_delay = 1f;
+                        private bool    jet_flag = false;
     [Space(10)]
         #endregion
 
@@ -77,6 +78,8 @@ public class Player_Behaviour : MonoBehaviour
     [Header("Combat Settings")]
                         private Attack  attackManager = null;
     [SerializeField]    private float   delayColInvert = 0.2f;
+    [SerializeField]    private int     damage = 100;
+    [SerializeField]    private int     damage_on_fall = 100;
         #endregion
 #endregion
 
@@ -86,12 +89,12 @@ public class Player_Behaviour : MonoBehaviour
 /// ////////////////// GETTERS AND SETTERS //////////////////
 /// </summary>
 
-    public sbyte getFuelValue() { return jet_fuel; }
-    public sbyte getMaxFuel() { return max_fuel; }
-    public sbyte getMinFuel() { return min_fuel; }
+    public short getFuelValue() { return jet_fuel; }
+    public short getMaxFuel() { return max_fuel; }
+    public short getMinFuel() { return min_fuel; }
     
-    public void setFuelValue(sbyte value) { jet_fuel = value; }
-    public void addFuelValue(sbyte value) { jet_fuel += value; }
+    public void setFuelValue(short value) { jet_fuel = value; }
+    public void addFuelValue(short value) { jet_fuel += value; }
 
 /////////////////// END OF GETTERS AND SETTERS //////////////////   
 #endregion
@@ -114,22 +117,24 @@ public class Player_Behaviour : MonoBehaviour
     /// </summary>
     void Update() {
         if (Input.GetButtonDown("Jump") && (isGrounded || Time.time - lastTimeGrounded <=
-            coyoteeTime || additionalJumps > 0))
+            coyoteeTime || additionalJumps > 0)) {
                 Jump();
-        x_step = Input.GetAxisRaw("Horizontal") * speed * Time.deltaTime * 100;
-        if (Input.GetButtonDown("Fire2")) {
+                jet_flag = true;
+            }
+        x_step = Input.GetAxisRaw("Horizontal") * speed;
+        if (Input.GetButtonDown("Jump") && !isGrounded) {
             if (jet_fuel > min_fuel)
                 Jump();
             jet_activated = true;
         }
-        if (Input.GetButtonUp("Fire2")) {
-            if (jet_fuel > min_fuel)
+        if (Input.GetButtonUp("Jump")) {
+            if (jet_fuel > min_fuel && jet_activated)
                 Jump();
             jet_activated = false;
         }
 
         if (Input.GetButtonDown("Fire3")) {
-            attackManager.AttackHit(50);
+            attackManager.AttackHit(damage, 0);
         }
         
         CheckIfGrounded();
@@ -170,8 +175,8 @@ public class Player_Behaviour : MonoBehaviour
     /// Applies horizontal movement
     /// </summary>
     void Move() {
-        StartCoroutine(attackManager.SetInvert((x_step < 0), delayColInvert));
-        rb.velocity = new Vector2(x_step, rb.velocity.y);
+        StartCoroutine(attackManager.SetInvertX((x_step < 0), delayColInvert, 0));
+        rb.velocity = new Vector2(x_step * Time.deltaTime * 100, rb.velocity.y);
     }
 
     /// <summary>
@@ -206,6 +211,8 @@ public class Player_Behaviour : MonoBehaviour
             groundLayer);
 
         if (colliders != null) {
+            Multiplier.setMultiplier(1);
+            jet_flag = false;
             isGrounded = true;
             additionalJumps = defaultAdditionalJumps;
         } 
@@ -215,7 +222,15 @@ public class Player_Behaviour : MonoBehaviour
             }
             isGrounded = false;
         }
+        if (attackManager.AttackHit(damage_on_fall, 1)) {
+            Jump();
+        }
     }
+
+    void StepOnMeMommy() {
+
+    }
+    
     #endregion
 
     #region Dash
@@ -274,8 +289,13 @@ public class Player_Behaviour : MonoBehaviour
     /// Applies jetpack force
     /// </summary>
     void JetpackUpdate() {
-        if (jet_fuel - jet_fuel_discharge >= 0)
+        if (jet_fuel >= min_fuel) {
+            if (jet_fuel > max_fuel)
+                jet_fuel = max_fuel;
             jet_fuel -= jet_fuel_discharge;
+        }
+        else
+            jet_fuel = min_fuel;
         rb.velocity += Vector2.up * jet_power * jet_multiplier * Time.deltaTime * 100;
         if (jet_multiplier < jet_maxMultiplier)
             jet_multiplier += jet_baseMultiplier;
