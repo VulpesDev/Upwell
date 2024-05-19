@@ -116,22 +116,6 @@ public class Player_Behaviour : MonoBehaviour
     /// (so it's cleaner and the pysics calculations are stable)
     /// </summary>
     void Update() {
-        if (Input.GetButtonDown("Jump") && (isGrounded || Time.time - lastTimeGrounded <=
-            coyoteeTime || additionalJumps > 0)) {
-                Jump();
-                jet_flag = true;
-            }
-        x_step = Input.GetAxisRaw("Horizontal") * speed;
-        if (Input.GetButtonDown("Jump") && !isGrounded) {
-            if (jet_fuel > min_fuel)
-                Jump();
-            jet_activated = true;
-        }
-        if (Input.GetButtonUp("Jump")) {
-            if (jet_fuel > min_fuel && jet_activated)
-                Jump();
-            jet_activated = false;
-        }
 
         if (Input.GetButtonDown("Fire3")) {
             attackManager.AttackHit(damage, 0);
@@ -143,16 +127,28 @@ public class Player_Behaviour : MonoBehaviour
 
     public void OnMove(InputAction.CallbackContext ctxt) {
         if (ctxt.performed)
-            Debug.Log("move key detected");
+            x_step = ctxt.ReadValue<Vector2>().x * speed;
+        else
+            x_step = 0;
     }
     public void OnJump(InputAction.CallbackContext ctxt) {
-        if (ctxt.performed)
-            Debug.Log("jump key detected");
+        if (ctxt.started && (isGrounded || Time.time - lastTimeGrounded <=
+            coyoteeTime || additionalJumps > 0)) {
+                Jump();
+                jet_flag = true;
+            }
+        if (ctxt.started && !isGrounded) {
+            if (jet_fuel > min_fuel)
+                Jump();
+            jet_activated = true;
+        }
+        if (ctxt.canceled) {
+            if (jet_fuel > min_fuel && jet_activated)
+                Jump();
+            jet_activated = false;
+        }
     }
-    public void OnJet(InputAction.CallbackContext ctxt) {
-        if (ctxt.performed)
-            Debug.Log("jet key detected");
-    }
+    
     /// <summary>
     /// Physics calculations are made in the FixedUpdate and calculated 
     /// using the time between frames for stable calculations across different hardware
