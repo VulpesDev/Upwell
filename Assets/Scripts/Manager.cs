@@ -8,7 +8,11 @@ public class Manager : MonoBehaviour
     public static Manager Instance;
 
     private void Awake() {
-        Instance = this;
+        if (!Instance)
+            Instance = this;
+        else if (Instance != this)
+            Destroy(this);
+        DontDestroyOnLoad(this);
     }
 
     public enum Scene {
