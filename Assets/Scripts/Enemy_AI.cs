@@ -70,7 +70,7 @@ public class Enemy_ai : MonoBehaviour
     private void enemy_patrol()
     {
         transform.Translate(Vector2.right * speed * Time.deltaTime);
-        RaycastHit2D ground_info = Physics2D.Raycast(ground_detection.position, Vector2.down, 5.0f, LayerMask.GetMask("Ground"));
+        RaycastHit2D ground_info = Physics2D.Raycast(ground_detection.position, Vector2.down, 1.0f, LayerMask.GetMask("Ground"));
         RaycastHit2D wall_info = Physics2D.Raycast(wall_detection.position, transform.right, 0.2f, LayerMask.GetMask("Ground"));
 
         if (ground_info.collider == null || wall_info.collider != null)
