@@ -20,8 +20,13 @@ public class Collectable : MonoBehaviour
     }
 
     void Update() {
-        if (Vector2.Distance(transform.position, GameObject.Find("Player").transform.position) <= magnetic_range)
+        if (Vector2.Distance(transform.position, GameObject.Find("Player").transform.position) <= magnetic_range) {
             transform.position = Vector3.MoveTowards(transform.position, GameObject.Find("Player").transform.position, Time.deltaTime * collect_speed);
+            Vector2 direction = GameObject.Find("Player").transform.position - transform.position;
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            Quaternion rotation = Quaternion.AngleAxis(angle + 90f, Vector3.forward);
+            transform.rotation = rotation;
+        }
     }
 
     private void OnDrawGizmosSelected() {

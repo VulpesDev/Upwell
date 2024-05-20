@@ -86,6 +86,8 @@ public class Player_Behaviour : MonoBehaviour
     [SerializeField]    private float   delayColInvert = 0.2f;
     [SerializeField]    private int     damage = 100;
     [SerializeField]    private int     damage_on_fall = 100;
+
+    Animator    anim;
         #endregion
 #endregion
 
@@ -136,6 +138,7 @@ public class Player_Behaviour : MonoBehaviour
             }
         x_step = Input.GetAxisRaw("Horizontal") * speed;
         if (Input.GetButtonDown("Jump") && !isGrounded) {
+            //here it's jetpack
             if (jet_fuel > min_fuel)
             {
                 Jump();
@@ -143,6 +146,7 @@ public class Player_Behaviour : MonoBehaviour
             jet_activated = true;
         }
         if (Input.GetButtonUp("Jump")) {
+            //here it's end of using jetpack (it pushes the player up a bit, before stopping the jet)
             if (jet_fuel > min_fuel && jet_activated)
                 Jump();
             jet_activated = false;
@@ -158,6 +162,22 @@ public class Player_Behaviour : MonoBehaviour
             jetpack.volume = Mathf.Lerp(jetpack.volume, 0, Time.deltaTime * 10);
             jetpack.pitch = Mathf.Lerp(jetpack.pitch, 0.5f, Time.deltaTime * 1.5f);
         }
+        if (!isGrounded && rb.velocity.y > 0) {
+            anim.SetBool("fly", true);
+            anim.SetBool("fall", false);
+
+        }
+        else if (!isGrounded && rb.velocity.y < 0) {
+            anim.SetBool("fall", true);
+            anim.SetBool("fly", false);
+
+        }
+        else {
+            anim.SetBool("fly", false);
+            anim.SetBool("fall", false);
+
+        }
+        
         CheckIfGrounded();
         DashCheck();
         CheckHyperState();
@@ -191,6 +211,11 @@ public class Player_Behaviour : MonoBehaviour
     void Move() {
         StartCoroutine(attackManager.SetInvertX((x_step < 0), delayColInvert, 0));
         rb.velocity = new Vector2(x_step * Time.deltaTime * 100, rb.velocity.y);
+        if (rb.velocity.x < -0.1f)
+            transform.eulerAngles = new Vector3(0, -180, 0);
+        else if (rb.velocity.x > 0.1f)
+            transform.eulerAngles = new Vector3(0, 0, 0);
+
     }
 
     /// <summary>
@@ -242,15 +267,7 @@ public class Player_Behaviour : MonoBehaviour
     }
 
     void CheckHyperState() {
-        if (Multiplier.getMultiplier() >= 300) {
-            hyper_state = true;
-            jet_fuel = max_fuel;
-            jet_maxMultiplier = jet_initMaxMultiplier * 2;
-        }
-        else {
-            jet_maxMultiplier = jet_initMaxMultiplier;
-            hyper_state = false;
-        }
+        
     }
 
     #endregion
