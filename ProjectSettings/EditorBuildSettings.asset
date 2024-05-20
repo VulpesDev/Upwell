@@ -6,12 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/MainMenu.unity
-    guid: 418b083bd78261144917fd4999866799
+    path: Assets/Scenes/MainMenuArt.unity
+    guid: 711937f215622244cae016f5818bf293
   - enabled: 1
-    path: Assets/Scenes/MarioMovement.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
-  - enabled: 0
-    path: Assets/Scenes/Level.unity
-    guid: 98eb2889e147686169be061544620647
+    path: Assets/Scenes/Main.unity
+    guid: ed14f1e5c5e4c2b42ae10c9a12acf94d
   m_configObjects: {}

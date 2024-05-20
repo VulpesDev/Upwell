@@ -171,6 +171,11 @@ public class Player_Behaviour : MonoBehaviour
     void Move() {
         StartCoroutine(attackManager.SetInvertX((x_step < 0), delayColInvert, 0));
         rb.velocity = new Vector2(x_step * Time.deltaTime * 100, rb.velocity.y);
+        if (rb.velocity.x < -0.1f)
+            transform.eulerAngles = new Vector3(0, -180, 0);
+        else if (rb.velocity.x > 0.1f)
+            transform.eulerAngles = new Vector3(0, 0, 0);
+
     }
 
     /// <summary>
@@ -222,15 +227,7 @@ public class Player_Behaviour : MonoBehaviour
     }
 
     void CheckHyperState() {
-        if (Multiplier.getMultiplier() >= 300) {
-            hyper_state = true;
-            jet_fuel = max_fuel;
-            jet_maxMultiplier = jet_initMaxMultiplier * 2;
-        }
-        else {
-            jet_maxMultiplier = jet_initMaxMultiplier;
-            hyper_state = false;
-        }
+        
     }
 
     #endregion
