@@ -81,6 +81,8 @@ public class Player_Behaviour : MonoBehaviour
     [SerializeField]    private float   delayColInvert = 0.2f;
     [SerializeField]    private int     damage = 100;
     [SerializeField]    private int     damage_on_fall = 100;
+
+    Animator    anim;
         #endregion
 #endregion
 
@@ -140,6 +142,21 @@ public class Player_Behaviour : MonoBehaviour
 
         if (Input.GetButtonDown("Fire3")) {
             attackManager.AttackHit(damage, 0);
+        }
+        if (!isGrounded && rb.velocity.y > 0) {
+            anim.SetBool("fly", true);
+            anim.SetBool("fall", false);
+
+        }
+        else if (!isGrounded && rb.velocity.y < 0) {
+            anim.SetBool("fall", true);
+            anim.SetBool("fly", false);
+
+        }
+        else {
+            anim.SetBool("fly", false);
+            anim.SetBool("fall", false);
+
         }
         
         CheckIfGrounded();
