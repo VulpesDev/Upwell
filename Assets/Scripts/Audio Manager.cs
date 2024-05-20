@@ -9,9 +9,9 @@ public class AudioManager : MonoBehaviour
     public AudioClip background;
     public AudioClip death;
     public AudioClip jump;
-    public AudioClip jetpackstart;
-    public AudioClip jetpackmid;
-    public AudioClip jetpackend;
+    //public AudioClip jetpackstart;
+    //public AudioClip jetpackmid;
+    //public AudioClip jetpackend;
 
     private void Start()
     {

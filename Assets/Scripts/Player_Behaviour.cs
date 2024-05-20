@@ -71,6 +71,9 @@ public class Player_Behaviour : MonoBehaviour
     [SerializeField]    private float   jet_recharge_delay = 1f;
                         private bool    jet_flag = false;
                         private bool    hyper_state = false;
+    public AudioSource jetpack;
+    float desiredEnginePitch = 0.5f;
+
     [Space(10)]
         #endregion
 
@@ -148,7 +151,13 @@ public class Player_Behaviour : MonoBehaviour
         if (Input.GetButtonDown("Fire3")) {
             attackManager.AttackHit(damage, 0);
         }
-        
+        if (!isGrounded)
+            update_engine();
+        else
+        {
+            jetpack.volume = Mathf.Lerp(jetpack.volume, 0, Time.deltaTime * 10);
+            jetpack.pitch = Mathf.Lerp(jetpack.pitch, 0.5f, Time.deltaTime * 1.5f);
+        }
         CheckIfGrounded();
         DashCheck();
         CheckHyperState();
@@ -322,5 +331,17 @@ public class Player_Behaviour : MonoBehaviour
     private void OnDrawGizmosSelected() {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(groundCheckPos, checkGroundRadius);
+    }
+
+    private void update_engine()
+    {
+        float velocityMagnitude = rb.velocity.y;
+        float DesiredEngineVolume = velocityMagnitude * 0.5f;
+        DesiredEngineVolume = Mathf.Clamp(DesiredEngineVolume, 0.2f, 0.1f);
+        jetpack.volume = Mathf.Lerp(jetpack.volume, DesiredEngineVolume, Time.deltaTime * 10);
+        //desiredEnginePitch = velocityMagnitude * 0.2f;
+        desiredEnginePitch = 2.0f - (velocityMagnitude * 0.2f);
+        desiredEnginePitch = Mathf.Clamp(desiredEnginePitch, 2.0f, 0.5f);
+        jetpack.pitch = Mathf.Lerp(jetpack.pitch, desiredEnginePitch, Time.deltaTime * 1.5f);
     }
 }
