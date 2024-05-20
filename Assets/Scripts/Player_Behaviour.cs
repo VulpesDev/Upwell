@@ -133,9 +133,10 @@ public class Player_Behaviour : MonoBehaviour
             }
         x_step = Input.GetAxisRaw("Horizontal") * speed;
         if (Input.GetButtonDown("Jump") && !isGrounded) {
-            audio_man.play_sfx(audio_man.jetpack);
             if (jet_fuel > min_fuel)
+            {
                 Jump();
+            }
             jet_activated = true;
         }
         if (Input.GetButtonUp("Jump")) {
@@ -161,10 +162,14 @@ public class Player_Behaviour : MonoBehaviour
         Move();
         JumpVelocityControl();
         if (jet_activated && jet_fuel > min_fuel)
+        {
             JetpackUpdate();
+        }
         else
+        {
             jet_multiplier = jet_baseMultiplier;
-        
+        }
+
 
     }
 #endregion
@@ -196,7 +201,7 @@ public class Player_Behaviour : MonoBehaviour
     void JumpVelocityControl() {
         if (rb.velocity.y < 0) {
             rb.velocity += Vector2.up * Physics2D.gravity * (lowFall_Multiplier - 1) * Time.deltaTime;
-        } 
+        }
         else if (rb.velocity.y > 0 && !Input.GetButtonDown("Jump")) {
             rb.velocity += Vector2.up * Physics2D.gravity * (lowJum_Multiplier - 1) * Time.deltaTime;
         }   
@@ -301,6 +306,7 @@ public class Player_Behaviour : MonoBehaviour
             if (jet_fuel > max_fuel)
                 jet_fuel = max_fuel;
             jet_fuel -= jet_fuel_discharge;
+            //audio_man.play_sfx(audio_man.jetpackmid);
         }
         else
             jet_fuel = min_fuel;

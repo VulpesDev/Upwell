@@ -9,7 +9,9 @@ public class AudioManager : MonoBehaviour
     public AudioClip background;
     public AudioClip death;
     public AudioClip jump;
-    public AudioClip jetpack;
+    public AudioClip jetpackstart;
+    public AudioClip jetpackmid;
+    public AudioClip jetpackend;
 
     private void Start()
     {
@@ -19,7 +21,7 @@ public class AudioManager : MonoBehaviour
 
     public void play_sfx(AudioClip clip)
     {
-        sfx_src.PlayOneShot(clip);
-
+        if (!sfx_src.isPlaying)
+            sfx_src.PlayOneShot(clip);
     }
 }
