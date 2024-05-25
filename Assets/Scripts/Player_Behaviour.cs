@@ -87,8 +87,8 @@ public class Player_Behaviour : MonoBehaviour
     [SerializeField]    private int     damage = 100;
     [SerializeField]    private int     damage_on_fall = 100;
 
-    Animator    anim;
         #endregion
+    Animator animator = null;
 #endregion
 
 
@@ -121,6 +121,7 @@ public class Player_Behaviour : MonoBehaviour
         additionalJumps = defaultAdditionalJumps;
         jet_initMaxMultiplier = jet_maxMultiplier;
         attackManager = GetComponent<Attack>();
+        animator = GetComponent<Animator>();
         StartCoroutine(JetpackDelay());
     }
 
@@ -162,22 +163,27 @@ public class Player_Behaviour : MonoBehaviour
             jetpack.volume = Mathf.Lerp(jetpack.volume, 0, Time.deltaTime * 10);
             jetpack.pitch = Mathf.Lerp(jetpack.pitch, 0.5f, Time.deltaTime * 1.5f);
         }
-        if (!isGrounded && rb.velocity.y > 0) {
-            anim.SetBool("fly", true);
-            anim.SetBool("fall", false);
 
-        }
-        else if (!isGrounded && rb.velocity.y < 0) {
-            anim.SetBool("fall", true);
-            anim.SetBool("fly", false);
-
+        if (isGrounded && (rb.velocity.x < -0.1f || rb.velocity.x > 0.1f)) {
+            animator.SetBool("walking", true);
         }
         else {
-            anim.SetBool("fly", false);
-            anim.SetBool("fall", false);
-
+            animator.SetBool("walking", false);
         }
-        
+
+        if (rb.velocity.y > 0.1f) {
+            animator.SetBool("fly", true);
+            animator.SetBool("fall", false);
+        }
+        else if (rb.velocity.y  < -0.1f) {
+            animator.SetBool("fly", false);
+            animator.SetBool("fall", true);
+        }
+        else {
+            animator.SetBool("fly", false);
+            animator.SetBool("fall", false);
+        }
+
         CheckIfGrounded();
         DashCheck();
         CheckHyperState();

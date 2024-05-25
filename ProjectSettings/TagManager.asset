@@ -5,11 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Enemy
-<<<<<<< HEAD
-  - Audio
-=======
   - Spawner
->>>>>>> main
+  - Audio
   layers:
   - Default
   - TransparentFX
